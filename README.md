@@ -16,6 +16,7 @@
 | Keresés filterek szerint | Varga Gábor |
 | Pénz félretétele, jelez ha túllépted | Mázsári Patrik |
 | Adatok kezelése, háttérbe | Kozma Kristóf |
+| API segítségével Devizaváltás | Jakab Gábor |
 
 
 ## Adat kezelés ##
