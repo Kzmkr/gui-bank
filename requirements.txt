@@ -1,0 +1,4 @@
+# Project Python dependencies
+# Install with: python -m pip install -r requirements.txt
+
+SQLAlchemy>=1.4,<3.0
