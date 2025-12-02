@@ -206,7 +206,7 @@
         <attribute name="title">
          <string>Egyszeri</string>
         </attribute>
-        <widget class="QPushButton" name="KeszEgyszeri">
+        <widget class="QPushButton" name="EgyszeriKesz">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -219,7 +219,7 @@
           <string>Kész</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="Osszeg">
+        <widget class="QLineEdit" name="EgyszeriOsszeg">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -229,7 +229,7 @@
           </rect>
          </property>
         </widget>
-        <widget class="QLineEdit" name="Partner">
+        <widget class="QLineEdit" name="EgyszeriPartner">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -239,7 +239,7 @@
           </rect>
          </property>
         </widget>
-        <widget class="QComboBox" name="Kategoria">
+        <widget class="QComboBox" name="EgyszeriKategoria">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -288,17 +288,30 @@
           <string>Milyen kategória?</string>
          </property>
         </widget>
-        <widget class="QCheckBox" name="kapcs">
+        <widget class="QRadioButton" name="EgyszeriBevetel">
          <property name="geometry">
           <rect>
-           <x>20</x>
+           <x>10</x>
            <y>210</y>
-           <width>75</width>
+           <width>89</width>
            <height>20</height>
           </rect>
          </property>
          <property name="text">
-          <string>Bevétel?</string>
+          <string>Bevétel</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="EgyszeriKiadas">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>210</y>
+           <width>89</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Kiadás</string>
          </property>
         </widget>
        </widget>
@@ -319,7 +332,7 @@
           <string>Mekkora összeg?</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="Osszeg_2">
+        <widget class="QLineEdit" name="RenszeresOsszeg">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -342,7 +355,7 @@
           <string>Kinek/kitől érkezik?</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="Partner_2">
+        <widget class="QLineEdit" name="RendszeresPartner">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -365,7 +378,7 @@
           <string>Milyen kategória?</string>
          </property>
         </widget>
-        <widget class="QComboBox" name="Kategoria_2">
+        <widget class="QComboBox" name="RendszeresKategoria">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -375,20 +388,7 @@
           </rect>
          </property>
         </widget>
-        <widget class="QCheckBox" name="kapcs_2">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>250</y>
-           <width>75</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Bevétel?</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="KeszEgyszeri_2">
+        <widget class="QPushButton" name="RendszeresKesz">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -401,11 +401,96 @@
           <string>Kész</string>
          </property>
         </widget>
+        <widget class="QRadioButton" name="RendszeresBevetel">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>250</y>
+           <width>89</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Bevétel</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="RendszeresKiadas">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>250</y>
+           <width>89</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Kiadás</string>
+         </property>
+        </widget>
+        <widget class="QDateEdit" name="dateEdit">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>200</y>
+           <width>110</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_17">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>170</y>
+           <width>141</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Mikor lesz az első ualás?</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="RendszeresValasztas">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>380</y>
+           <width>68</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_18">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>340</y>
+           <width>151</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Melyiket szeretnéd törölni?</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="RendszeresTorles">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>420</y>
+           <width>75</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Törlés</string>
+         </property>
+        </widget>
        </widget>
       </widget>
      </widget>
      <widget class="QWidget" name="Befektetesek">
-      <widget class="QLineEdit" name="lineEdit">
+      <widget class="QLineEdit" name="BefektetesekOsszeg">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -441,7 +526,7 @@
         <string>Kockázat</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton">
+      <widget class="QRadioButton" name="BefektetesekAlacsony">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -454,7 +539,7 @@
         <string>Alacsony</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton_2">
+      <widget class="QRadioButton" name="BefektetesekKozepes">
        <property name="geometry">
         <rect>
          <x>120</x>
@@ -467,7 +552,7 @@
         <string>Közepes</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton_3">
+      <widget class="QRadioButton" name="BefektetesekMagas">
        <property name="geometry">
         <rect>
          <x>220</x>
@@ -480,7 +565,7 @@
         <string>Magas</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton_4">
+      <widget class="QRadioButton" name="BefektetesekRovid">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -493,7 +578,7 @@
         <string>Rövid</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton_5">
+      <widget class="QRadioButton" name="BefektetesekKozepes2">
        <property name="geometry">
         <rect>
          <x>120</x>
@@ -506,7 +591,7 @@
         <string>Közepes</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton_6">
+      <widget class="QRadioButton" name="BefektetesekHosszu">
        <property name="geometry">
         <rect>
          <x>220</x>
@@ -532,7 +617,7 @@
         <string>Időtáv</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_8">
+      <widget class="QPushButton" name="BefektetesekKesz">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -547,9 +632,222 @@
       </widget>
      </widget>
      <widget class="QWidget" name="Statisztika"/>
-     <widget class="QWidget" name="Felretetel"/>
-     <widget class="QWidget" name="MultbeliTranzakciok"/>
-     <widget class="QWidget" name="Kategoriak"/>
+     <widget class="QWidget" name="Felretetel">
+      <widget class="QPushButton" name="FelretetelKesz">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>70</y>
+         <width>75</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Felvétéel</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_12">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>49</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Összeg:</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="FelretetelOsszeg">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>30</y>
+         <width>113</width>
+         <height>21</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="FelretetelKategoria">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>110</y>
+         <width>68</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="FelretetelTorles">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>150</y>
+         <width>101</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Félretétel törlése</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="MultbeliTranzakciok">
+      <widget class="QTableView" name="MultbeliOutput">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>111</y>
+         <width>581</width>
+         <height>441</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="MultbeliKesz">
+       <property name="geometry">
+        <rect>
+         <x>520</x>
+         <y>70</y>
+         <width>91</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Keresés</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="MultbeliKategoria">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>68</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_13">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>61</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Kategória</string>
+       </property>
+      </widget>
+      <widget class="QTimeEdit" name="MultbeliIdo">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>60</y>
+         <width>118</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_14">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>20</y>
+         <width>49</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Idő</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_15">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>10</y>
+         <width>49</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Ár szerint</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="MultbeliOsszeg">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>50</y>
+         <width>113</width>
+         <height>21</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="Kategoriak">
+      <widget class="QLineEdit" name="KategoriaKategoria">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>113</width>
+         <height>21</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_16">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>10</y>
+         <width>91</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Kategória neve</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="KategoriaKesz">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>80</y>
+         <width>75</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Hozzáadás</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="KategoriaValaszt">
+       <property name="geometry">
+        <rect>
+         <x>420</x>
+         <y>20</y>
+         <width>68</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="KategoriaTorles">
+       <property name="geometry">
+        <rect>
+         <x>400</x>
+         <y>70</y>
+         <width>121</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Kategória törlése</string>
+       </property>
+      </widget>
+     </widget>
      <widget class="QWidget" name="DevizaValtasa">
       <widget class="QLabel" name="label_11">
        <property name="geometry">
@@ -564,7 +862,7 @@
         <string>Összeg:</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_2">
+      <widget class="QLineEdit" name="DevizaOsszeg">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -574,7 +872,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox">
+      <widget class="QComboBox" name="DevizaMibol">
        <property name="geometry">
         <rect>
          <x>200</x>
@@ -584,7 +882,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_2">
+      <widget class="QComboBox" name="DevizaMibe">
        <property name="geometry">
         <rect>
          <x>200</x>
@@ -594,7 +892,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QLabel" name="Kimenet">
+      <widget class="QLabel" name="DevizaKimenet">
        <property name="geometry">
         <rect>
          <x>200</x>
@@ -607,7 +905,7 @@
         <string>TextLabel</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_9">
+      <widget class="QPushButton" name="DevizaKesz">
        <property name="geometry">
         <rect>
          <x>20</x>
