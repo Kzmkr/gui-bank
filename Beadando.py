@@ -334,34 +334,34 @@ if __name__ == "__main__":
     import json
 
     class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
+        def __init__(self):
+            super().__init__()
+            self.ui = Ui_MainWindow()
+            self.ui.setupUi(self)
 
-        # --- JSON betöltés induláskor ---
-        try:
-            with open("adat.json", "r", encoding="utf-8") as f:
-                adat = json.load(f)
-                self.ertek = int(adat.get("szam", 0))
-        except (FileNotFoundError, ValueError):
-            self.ertek = 0
+            # --- JSON betöltés induláskor ---
+            try:
+                with open("adat.json", "r", encoding="utf-8") as f:
+                    adat = json.load(f)
+                    self.ertek = int(adat.get("szam", 0))
+            except (FileNotFoundError, ValueError):
+                self.ertek = 0
 
-        # QLabel frissítése a betöltött értékkel
-        self.ui.label.setText(str(self.ertek))
-        # --- JSON betöltés vége ---
+            # QLabel frissítése a betöltött értékkel
+            self.ui.label.setText(str(self.ertek))
+            # --- JSON betöltés vége ---
 
-        # Bal oldali gombok összekötése a lapozó függvénnyel
-        self.ui.pushButton.clicked.connect(lambda: self.lapozas(0))
-        self.ui.pushButton_2.clicked.connect(lambda: self.lapozas(1))
-        self.ui.pushButton_3.clicked.connect(lambda: self.lapozas(2))
-        self.ui.pushButton_4.clicked.connect(lambda: self.lapozas(3))
-        self.ui.pushButton_5.clicked.connect(lambda: self.lapozas(4))
-        self.ui.pushButton_6.clicked.connect(lambda: self.lapozas(5))
-        self.ui.pushButton_7.clicked.connect(lambda: self.lapozas(6))
+            # Bal oldali gombok összekötése a lapozó függvénnyel
+            self.ui.pushButton.clicked.connect(lambda: self.lapozas(0))
+            self.ui.pushButton_2.clicked.connect(lambda: self.lapozas(1))
+            self.ui.pushButton_3.clicked.connect(lambda: self.lapozas(2))
+            self.ui.pushButton_4.clicked.connect(lambda: self.lapozas(3))
+            self.ui.pushButton_5.clicked.connect(lambda: self.lapozas(4))
+            self.ui.pushButton_6.clicked.connect(lambda: self.lapozas(5))
+            self.ui.pushButton_7.clicked.connect(lambda: self.lapozas(6))
 
-        # Egyszeri gomb esemény
-        self.ui.EgyszeriKesz.clicked.connect(self.egyszeri_kesz_megnyomva)
+            # Egyszeri gomb esemény
+            self.ui.EgyszeriKesz.clicked.connect(self.egyszeri_kesz_megnyomva)
 
 
         # Egyszeri gomb kezelése
@@ -384,6 +384,9 @@ if __name__ == "__main__":
 
             # QLabel frissítése
             self.ui.label.setText(str(self.ertek) + " Ft")
+
+        def lapozas(self, index):
+            self.ui.stackedWidget.setCurrentIndex(index)
 
 
 
