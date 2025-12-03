@@ -1,0 +1,463 @@
+Bence cucca
+
+Megjegyzés: pip-el és PyQt6-al van még baja
+
+
+Nem a fájlba:
+-------------------------------------------------------------
+Végső érték = Kezdő összeg × (1 + éves_hozam)^évek
+
+# A főalkalmazásban:
+from investment_module import create_investment_tab
+
+# Fül hozzáadása
+investment_widget = create_investment_tab()
+self.tabs.addTab(investment_widget, "💰 Befektetések")
+
+pip install PyQt6 PyQt6-Charts
+
+
+Fájlba:
+--------------------------------------------------------
+"""
+Befektetési Modul - Pénzügyi Alkalmazás
+Felelős: Befektetések kezelése és hozamkalkuláció
+"""
+pip install PyQt6 PyQt6-Charts
+
+import sys
+import json
+from datetime import datetime, timedelta
+from typing import Dict, List, Tuple
+import requests
+from PyQt6.QtWidgets import (
+    QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, QLineEdit,
+    QPushButton, QComboBox, QSpinBox, QTableWidget, QTableWidgetItem,
+    QMessageBox, QTabWidget, QFormLayout, QProgressBar
+)
+from PyQt6.QtCore import Qt, pyqtSignal, QThread
+from PyQt6.QtChart import QChart, QChartView, QBarSeries, QBarSet, QBarCategoryAxis, QValueAxis
+from PyQt6.QtGui import QColor, QPainter, QFont
+from PyQt6.QtCore import QTimer
+
+
+class InvestmentCalculator:
+    """Befektetési hozamszámítási motor"""
+    
+    # Kockázati modellek alapvető paraméterei
+    MODELS = {
+        'alacsony': {
+            'name': 'Alacsony kockázat',
+            'base_return': 0.04,  # 4% éves
+            'volatility': 0.03,   # 3% volatilitás
+            'description': 'Államkötvények, stabil portfólióelemek'
+        },
+        'kozepes': {
+            'name': 'Közepes kockázat',
+            'base_return': 0.08,  # 8% éves
+            'volatility': 0.08,   # 8% volatilitás
+            'description': 'Vegyes portfólió: részvények, kötvények, ETF-ek'
+        },
+        'magas': {
+            'name': 'Magas kockázat',
+            'base_return': 0.15,  # 15% éves
+            'volatility': 0.18,   # 18% volatilitás
+            'description': 'Részvények, kriptovaluták'
+        }
+    }
+    
+    # Időtáv módosítók
+    TIME_HORIZONS = {
+        'rovid': {
+            'name': 'Rövid táv',
+            'years': 1,
+            'modifier': 0.8,
+            'description': '0-1 év'
+        },
+        'kozep': {
+            'name': 'Közép táv',
+            'years': 5,
+            'modifier': 1.0,
+            'description': '3-5 év'
+        },
+        'hosszu': {
+            'name': 'Hosszú táv',
+            'years': 10,
+            'modifier': 1.3,
+            'description': '10+ év'
+        }
+    }
+    
+    def __init__(self):
+        self.selected_model = 'kozepes'
+        self.selected_horizon = 'kozep'
+        self.calculation_history = []
+    
+    def valaszdmodell(self, kockazati_szint: str) -> bool:
+        """Beállítja a kiválasztott kockázati modellt"""
+        if kockazati_szint in self.MODELS:
+            self.selected_model = kockazati_szint
+            return True
+        return False
+    
+    def valaszdidotav(self, idotav: str) -> bool:
+        """Beállítja a befektetési időhorizontot"""
+        if idotav in self.TIME_HORIZONS:
+            self.selected_horizon = idotav
+            return True
+        return False
+    
+    def szamithozam(self, osszeg: float, modell: str, idotav: str) -> Dict:
+        """
+        Kiszámítja a várható hozamot és eredményt
+        
+        Args:
+            osszeg: Befektetett összeg (HUF)
+            modell: Kockázati modell ('alacsony', 'kozepes', 'magas')
+            idotav: Időhorizont ('rovid', 'kozep', 'hosszu')
+        
+        Returns:
+            Dict: Hozam adatok (százalék, abszolút érték, éves bontás)
+        """
+        if modell not in self.MODELS or idotav not in self.TIME_HORIZONS:
+            return None
+        
+        model_data = self.MODELS[modell]
+        horizon_data = self.TIME_HORIZONS[idotav]
+        
+        # Éves hozam számítása időhorizonttal módosított értékkel
+        base_return = model_data['base_return']
+        modifier = horizon_data['modifier']
+        annual_return = base_return * modifier
+        
+        years = horizon_data['years']
+        
+        # Összetett kamat kalkuláció
+        final_amount = osszeg * ((1 + annual_return) ** years)
+        profit = final_amount - osszeg
+        profit_percent = (profit / osszeg) * 100 if osszeg > 0 else 0
+        
+        # Éves bontás
+        yearly_breakdown = []
+        for year in range(years):
+            amount = osszeg * ((1 + annual_return) ** (year + 1))
+            yearly_profit = amount - osszeg
+            yearly_breakdown.append({
+                'year': year + 1,
+                'amount': round(amount, 2),
+                'yearly_profit': round(yearly_profit, 2),
+                'profit_percent': round((yearly_profit / osszeg) * 100, 2)
+            })
+        
+        result = {
+            'initial_amount': osszeg,
+            'final_amount': round(final_amount, 2),
+            'profit': round(profit, 2),
+            'profit_percent': round(profit_percent, 2),
+            'annual_return': round(annual_return * 100, 2),
+            'years': years,
+            'model': modell,
+            'horizon': idotav,
+            'model_name': model_data['name'],
+            'horizon_name': horizon_data['name'],
+            'yearly_breakdown': yearly_breakdown,
+            'volatility': model_data['volatility'],
+            'calculation_date': datetime.now().isoformat()
+        }
+        
+        self.calculation_history.append(result)
+        return result
+    
+    def get_yearly_chart_data(self, calculation: Dict) -> Tuple[List[str], List[float]]:
+        """Grafikon adatainak előkészítése"""
+        categories = [f"{item['year']}. év" for item in calculation['yearly_breakdown']]
+        values = [item['amount'] for item in calculation['yearly_breakdown']]
+        return categories, values
+    
+    def get_history(self) -> List[Dict]:
+        """Kalkulációs történet lekérése"""
+        return self.calculation_history
+
+
+class InvestmentWidget(QWidget):
+    """Befektetési modul Qt felülete"""
+    
+    calculation_done = pyqtSignal(dict)
+    
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.calculator = InvestmentCalculator()
+        self.current_calculation = None
+        self.init_ui()
+    
+    def init_ui(self):
+        """Felhasználói felület inicializálása"""
+        main_layout = QVBoxLayout()
+        
+        # Felső panel: Input mezők
+        input_group = QGroupBox("Befektetés paraméterei")
+        input_layout = QFormLayout()
+        
+        # Kezdő összeg
+        self.amount_input = QLineEdit()
+        self.amount_input.setPlaceholderText("pl. 1000000")
+        self.amount_input.setText("1000000")
+        input_layout.addRow("Befektetési összeg (HUF):", self.amount_input)
+        
+        # Kockázati modell
+        self.model_combo = QComboBox()
+        self.model_combo.addItem("Alacsony kockázat", "alacsony")
+        self.model_combo.addItem("Közepes kockázat", "kozepes")
+        self.model_combo.addItem("Magas kockázat", "magas")
+        self.model_combo.currentIndexChanged.connect(self.on_model_changed)
+        input_layout.addRow("Kockázati modell:", self.model_combo)
+        
+        # Modell leírás
+        self.model_desc_label = QLabel()
+        self.model_desc_label.setStyleSheet("color: #666; font-style: italic;")
+        input_layout.addRow("", self.model_desc_label)
+        
+        # Időhorizont
+        self.horizon_combo = QComboBox()
+        self.horizon_combo.addItem("Rövid táv (0-1 év)", "rovid")
+        self.horizon_combo.addItem("Közép táv (3-5 év)", "kozep")
+        self.horizon_combo.addItem("Hosszú táv (10+ év)", "hosszu")
+        self.horizon_combo.currentIndexChanged.connect(self.on_horizon_changed)
+        input_layout.addRow("Befektetési időtáv:", self.horizon_combo)
+        
+        # Időtáv leírás
+        self.horizon_desc_label = QLabel()
+        self.horizon_desc_label.setStyleSheet("color: #666; font-style: italic;")
+        input_layout.addRow("", self.horizon_desc_label)
+        
+        input_group.setLayout(input_layout)
+        main_layout.addWidget(input_group)
+        
+        # Kalkuláció gomb
+        calc_layout = QHBoxLayout()
+        self.calc_button = QPushButton("📊 Kalkuláció")
+        self.calc_button.setStyleSheet(
+            "QPushButton { background-color: #2ecc71; color: white; font-weight: bold; "
+            "padding: 10px; border-radius: 5px; font-size: 12px; }"
+            "QPushButton:hover { background-color: #27ae60; }"
+        )
+        self.calc_button.clicked.connect(self.calculate)
+        calc_layout.addStretch()
+        calc_layout.addWidget(self.calc_button)
+        calc_layout.addStretch()
+        main_layout.addLayout(calc_layout)
+        
+        # Eredmények panel
+        results_group = QGroupBox("Kalkulációs eredmények")
+        results_layout = QVBoxLayout()
+        
+        # Eredmények táblázata
+        self.results_table = QTableWidget(0, 2)
+        self.results_table.setHorizontalHeaderLabels(["Paraméter", "Érték"])
+        self.results_table.setColumnWidth(0, 250)
+        self.results_table.setColumnWidth(1, 200)
+        results_layout.addWidget(self.results_table)
+        
+        results_group.setLayout(results_layout)
+        main_layout.addWidget(results_group)
+        
+        # Grafikon panel
+        chart_group = QGroupBox("Várható növekedés az idő függvényében")
+        chart_layout = QVBoxLayout()
+        
+        self.chart_view = QChartView()
+        self.chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
+        chart_layout.addWidget(self.chart_view)
+        
+        chart_group.setLayout(chart_layout)
+        main_layout.addWidget(chart_group)
+        
+        # Részletezett táblázat (éves bontás)
+        details_group = QGroupBox("Éves bontás")
+        details_layout = QVBoxLayout()
+        
+        self.details_table = QTableWidget(0, 4)
+        self.details_table.setHorizontalHeaderLabels(["Év", "Össz. érték (HUF)", "Nyereség (HUF)", "Nyereség (%)"])
+        self.details_table.setColumnWidth(0, 50)
+        self.details_table.setColumnWidth(1, 150)
+        self.details_table.setColumnWidth(2, 150)
+        self.details_table.setColumnWidth(3, 100)
+        details_layout.addWidget(self.details_table)
+        
+        details_group.setLayout(details_layout)
+        main_layout.addWidget(details_group)
+        
+        self.setLayout(main_layout)
+        
+        # Inicial leírások
+        self.on_model_changed()
+        self.on_horizon_changed()
+    
+    def on_model_changed(self):
+        """Kockázati modell megváltozásakor"""
+        model_key = self.model_combo.currentData()
+        model = self.calculator.MODELS[model_key]
+        self.model_desc_label.setText(model['description'])
+    
+    def on_horizon_changed(self):
+        """Időhorizont megváltozásakor"""
+        horizon_key = self.horizon_combo.currentData()
+        horizon = self.calculator.TIME_HORIZONS[horizon_key]
+        self.horizon_desc_label.setText(horizon['description'])
+    
+    def calculate(self):
+        """Hozam kalkuláció végrehajtása"""
+        try:
+            # Input validáció
+            amount_text = self.amount_input.text().strip()
+            if not amount_text:
+                QMessageBox.warning(self, "Hiba", "Kérem adjon meg befektetési összeget!")
+                return
+            
+            amount = float(amount_text)
+            if amount <= 0:
+                QMessageBox.warning(self, "Hiba", "A befektetési összeg pozitív szám kell legyen!")
+                return
+            
+            model = self.model_combo.currentData()
+            horizon = self.horizon_combo.currentData()
+            
+            # Kalkuláció
+            result = self.calculator.szamithozam(amount, model, horizon)
+            
+            if not result:
+                QMessageBox.critical(self, "Hiba", "Kalkulációs hiba történt!")
+                return
+            
+            self.current_calculation = result
+            self.display_results(result)
+            self.calculation_done.emit(result)
+            
+        except ValueError:
+            QMessageBox.warning(self, "Hiba", "Érvénytelen befektetési összeg!")
+    
+    def display_results(self, result: Dict):
+        """Kalkulációs eredmények megjelenítése"""
+        # Eredmények táblázata
+        self.results_table.setRowCount(0)
+        
+        results_data = [
+            ("Kezdő összeg", f"{result['initial_amount']:,.0f} HUF"),
+            ("Végső érték", f"{result['final_amount']:,.0f} HUF"),
+            ("Nyereség (abszolút)", f"{result['profit']:,.0f} HUF"),
+            ("Nyereség (%)", f"{result['profit_percent']:.2f}%"),
+            ("Éves hozamráta", f"{result['annual_return']:.2f}%"),
+            ("Befektetési időtáv", f"{result['horizon_name']} ({result['years']} év)"),
+            ("Kockázati modell", result['model_name']),
+        ]
+        
+        for i, (param, value) in enumerate(results_data):
+            self.results_table.insertRow(i)
+            
+            param_item = QTableWidgetItem(param)
+            param_item.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+            self.results_table.setItem(i, 0, param_item)
+            
+            value_item = QTableWidgetItem(str(value))
+            value_item.setFont(QFont("Arial", 10))
+            self.results_table.setItem(i, 1, value_item)
+        
+        # Grafikon készítése
+        self.create_chart(result)
+        
+        # Éves bontás
+        self.display_yearly_breakdown(result)
+    
+    def create_chart(self, result: Dict):
+        """Grafikon létrehozása"""
+        categories, values = self.calculator.get_yearly_chart_data(result)
+        
+        # Bar chart adatok
+        chart = QChart()
+        chart.setTitle(f"Befektetés növekedése - {result['model_name']}")
+        chart.setAnimationOptions(QChart.AnimationOption.SeriesAnimations)
+        
+        # Bar Set
+        bar_set = QBarSet("Portfólió értéke (HUF)")
+        bar_set.setColor(QColor("#2ecc71"))
+        
+        for value in values:
+            bar_set.append(value)
+        
+        series = QBarSeries()
+        series.append(bar_set)
+        
+        chart.addSeries(series)
+        
+        # Tengelyek
+        axis_x = QBarCategoryAxis()
+        axis_x.append(categories)
+        chart.addAxis(axis_x, Qt.AlignmentFlag.AlignBottom)
+        series.attachAxis(axis_x)
+        
+        axis_y = QValueAxis()
+        axis_y.setTitleText("Érték (HUF)")
+        chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)
+        series.attachAxis(axis_y)
+        
+        # Jelmagyarázat
+        chart.legend().setVisible(True)
+        
+        self.chart_view.setChart(chart)
+    
+    def display_yearly_breakdown(self, result: Dict):
+        """Éves bontás megjelenítése"""
+        breakdown = result['yearly_breakdown']
+        self.details_table.setRowCount(len(breakdown))
+        
+        for i, year_data in enumerate(breakdown):
+            items = [
+                str(year_data['year']),
+                f"{year_data['amount']:,.0f}",
+                f"{year_data['yearly_profit']:,.0f}",
+                f"{year_data['profit_percent']:.2f}%"
+            ]
+            
+            for j, value in enumerate(items):
+                item = QTableWidgetItem(value)
+                item.setFont(QFont("Arial", 9))
+                self.details_table.setItem(i, j, item)
+    
+    def get_model_info(self) -> str:
+        """Modell információ szöveges formában"""
+        if not self.current_calculation:
+            return ""
+        
+        result = self.current_calculation
+        return f"""
+        Befektetési Elemzés
+        ==================
+        Modell: {result['model_name']}
+        Időtáv: {result['horizon_name']}
+        Kezdő összeg: {result['initial_amount']:,.0f} HUF
+        Végső érték: {result['final_amount']:,.0f} HUF
+        Nyereség: {result['profit']:,.0f} HUF ({result['profit_percent']:.2f}%)
+        Éves hozamráta: {result['annual_return']:.2f}%
+        """
+
+
+# Exportálható függvények az alkalmazás integrációjához
+def create_investment_tab() -> QWidget:
+    """Befektetési fül létrehozása"""
+    return InvestmentWidget()
+
+
+if __name__ == '__main__':
+    from PyQt6.QtWidgets import QApplication, QMainWindow
+    
+    app = QApplication(sys.argv)
+    
+    window = QMainWindow()
+    window.setWindowTitle("Befektetési Modul - Teszt")
+    window.setGeometry(100, 100, 1200, 900)
+    
+    widget = InvestmentWidget()
+    window.setCentralWidget(widget)
+    
+    window.show()
+    sys.exit(app.exec())

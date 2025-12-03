@@ -154,30 +154,48 @@ class Ui_MainWindow(object):
         self.label_9 = QtWidgets.QLabel(parent=self.Befektetesek)
         self.label_9.setGeometry(QtCore.QRect(20, 70, 49, 16))
         self.label_9.setObjectName("label_9")
+        
+        # Risk level button group
+        self.BefektetesekRiskGroup = QtWidgets.QButtonGroup()
         self.BefektetesekAlacsony = QtWidgets.QRadioButton(parent=self.Befektetesek)
         self.BefektetesekAlacsony.setGeometry(QtCore.QRect(20, 100, 89, 20))
         self.BefektetesekAlacsony.setObjectName("BefektetesekAlacsony")
+        self.BefektetesekRiskGroup.addButton(self.BefektetesekAlacsony)
         self.BefektetesekKozepes = QtWidgets.QRadioButton(parent=self.Befektetesek)
         self.BefektetesekKozepes.setGeometry(QtCore.QRect(120, 100, 89, 20))
         self.BefektetesekKozepes.setObjectName("BefektetesekKozepes")
+        self.BefektetesekRiskGroup.addButton(self.BefektetesekKozepes)
         self.BefektetesekMagas = QtWidgets.QRadioButton(parent=self.Befektetesek)
         self.BefektetesekMagas.setGeometry(QtCore.QRect(220, 100, 89, 20))
         self.BefektetesekMagas.setObjectName("BefektetesekMagas")
-        self.BefektetesekRovid = QtWidgets.QRadioButton(parent=self.Befektetesek)
-        self.BefektetesekRovid.setGeometry(QtCore.QRect(20, 170, 89, 20))
-        self.BefektetesekRovid.setObjectName("BefektetesekRovid")
-        self.BefektetesekKozepes2 = QtWidgets.QRadioButton(parent=self.Befektetesek)
-        self.BefektetesekKozepes2.setGeometry(QtCore.QRect(120, 170, 89, 20))
-        self.BefektetesekKozepes2.setObjectName("BefektetesekKozepes2")
-        self.BefektetesekHosszu = QtWidgets.QRadioButton(parent=self.Befektetesek)
-        self.BefektetesekHosszu.setGeometry(QtCore.QRect(220, 170, 89, 20))
-        self.BefektetesekHosszu.setObjectName("BefektetesekHosszu")
+        self.BefektetesekRiskGroup.addButton(self.BefektetesekMagas)
+        
         self.label_10 = QtWidgets.QLabel(parent=self.Befektetesek)
         self.label_10.setGeometry(QtCore.QRect(20, 130, 49, 16))
         self.label_10.setObjectName("label_10")
+        
+        # Time period button group
+        self.BefektetesekTimeGroup = QtWidgets.QButtonGroup()
+        self.BefektetesekRovid = QtWidgets.QRadioButton(parent=self.Befektetesek)
+        self.BefektetesekRovid.setGeometry(QtCore.QRect(20, 170, 89, 20))
+        self.BefektetesekRovid.setObjectName("BefektetesekRovid")
+        self.BefektetesekTimeGroup.addButton(self.BefektetesekRovid)
+        self.BefektetesekKozepes2 = QtWidgets.QRadioButton(parent=self.Befektetesek)
+        self.BefektetesekKozepes2.setGeometry(QtCore.QRect(120, 170, 89, 20))
+        self.BefektetesekKozepes2.setObjectName("BefektetesekKozepes2")
+        self.BefektetesekTimeGroup.addButton(self.BefektetesekKozepes2)
+        self.BefektetesekHosszu = QtWidgets.QRadioButton(parent=self.Befektetesek)
+        self.BefektetesekHosszu.setGeometry(QtCore.QRect(220, 170, 89, 20))
+        self.BefektetesekHosszu.setObjectName("BefektetesekHosszu")
+        self.BefektetesekTimeGroup.addButton(self.BefektetesekHosszu)
+        
         self.BefektetesekKesz = QtWidgets.QPushButton(parent=self.Befektetesek)
         self.BefektetesekKesz.setGeometry(QtCore.QRect(20, 210, 75, 24))
         self.BefektetesekKesz.setObjectName("BefektetesekKesz")
+        self.BefektetesekKimenet = QtWidgets.QLabel(parent=self.Befektetesek)
+        self.BefektetesekKimenet.setGeometry(QtCore.QRect(20, 250, 400, 80))
+        self.BefektetesekKimenet.setObjectName("BefektetesekKimenet")
+        self.BefektetesekKimenet.setWordWrap(True)
         self.stackedWidget.addWidget(self.Befektetesek)
         self.Statisztika = QtWidgets.QWidget()
         self.Statisztika.setObjectName("Statisztika")
@@ -260,8 +278,9 @@ class Ui_MainWindow(object):
         self.DevizaMibe.setGeometry(QtCore.QRect(200, 40, 68, 22))
         self.DevizaMibe.setObjectName("DevizaMibe")
         self.DevizaKimenet = QtWidgets.QLabel(parent=self.DevizaValtasa)
-        self.DevizaKimenet.setGeometry(QtCore.QRect(200, 80, 49, 16))
+        self.DevizaKimenet.setGeometry(QtCore.QRect(200, 80, 300, 50))
         self.DevizaKimenet.setObjectName("DevizaKimenet")
+        self.DevizaKimenet.setWordWrap(True)
         self.DevizaKesz = QtWidgets.QPushButton(parent=self.DevizaValtasa)
         self.DevizaKesz.setGeometry(QtCore.QRect(20, 80, 75, 24))
         self.DevizaKesz.setObjectName("DevizaKesz")
@@ -314,6 +333,7 @@ class Ui_MainWindow(object):
         self.BefektetesekHosszu.setText(_translate("MainWindow", "Hosszú"))
         self.label_10.setText(_translate("MainWindow", "Időtáv"))
         self.BefektetesekKesz.setText(_translate("MainWindow", "Kalkuláció"))
+        self.BefektetesekKimenet.setText(_translate("MainWindow", ""))
         self.FelretetelKesz.setText(_translate("MainWindow", "Felvétéel"))
         self.label_12.setText(_translate("MainWindow", "Összeg:"))
         self.FelretetelTorles.setText(_translate("MainWindow", "Félretétel törlése"))
@@ -332,12 +352,18 @@ class Ui_MainWindow(object):
 if __name__ == "__main__":
     import sys
     import json
+    from valutavalto import open_exchange_window
+    from statistics_ui import setup_statistics_page
+    from db_manager import TransactionManager
 
     class MainWindow(QtWidgets.QMainWindow):
         def __init__(self):
             super().__init__()
             self.ui = Ui_MainWindow()
             self.ui.setupUi(self)
+            
+            # Initialize database manager
+            self.db_manager = TransactionManager()
 
             # --- JSON betöltés induláskor ---
             try:
@@ -362,31 +388,508 @@ if __name__ == "__main__":
 
             # Egyszeri gomb esemény
             self.ui.EgyszeriKesz.clicked.connect(self.egyszeri_kesz_megnyomva)
+            
+            # Rendszeres gomb esemény
+            self.ui.RendszeresKesz.clicked.connect(self.rendszeres_kesz_megnyomva)
+            self.ui.RendszeresTorles.clicked.connect(self.rendszeres_torles)
+            
+            # Load recurring transactions list
+            self.load_recurring_list()
+            
+            # Deviza váltása page elemek beállítása
+            self.setup_currency_page()
+            self.ui.DevizaKesz.clicked.connect(self.deviza_valt)
+            
+            # Statisztika page beállítása
+            self.stats_widget = setup_statistics_page(self.ui.Statisztika)
+            
+            # Kategóriák page beállítása
+            self.setup_categories_page()
+            self.ui.KategoriaKesz.clicked.connect(self.add_category)
+            self.ui.KategoriaTorles.clicked.connect(self.delete_category)
+            
+            # Múltbéli tranzakciók page beállítása
+            self.setup_transactions_page()
+            self.ui.MultbeliKesz.clicked.connect(self.search_transactions)
+            
+            # Befektetések page beállítása
+            self.ui.BefektetesekKesz.clicked.connect(self.befektetesek_kalkulator)
 
 
         # Egyszeri gomb kezelése
         def egyszeri_kesz_megnyomva(self):
+            from datetime import date as date_module
+            
             osszeg_str = self.ui.EgyszeriOsszeg.text()
             try:
                 osszeg = float(osszeg_str) if osszeg_str else 0
             except ValueError:
-                osszeg = 0
-            partner = self.ui.EgyszeriPartner.text()
-            kategoria = self.ui.EgyszeriKategoria.currentText()
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Érvénytelen összeg!")
+                return
             
-
-            print(f"Osszeg: {osszeg}, Partner: {partner}, Kategoria: {kategoria}")
-
-            # Mentés JSON-ba
-            self.ertek = int(osszeg)  # vagy amihez kötöd a QLabel-t
-            with open("osszeg.json", "w", encoding="utf-8") as f:
-                json.dump({"osszeg": self.ertek}, f, indent=4)
-
-            # QLabel frissítése
-            self.ui.label.setText(str(self.ertek) + " Ft")
+            partner = self.ui.EgyszeriPartner.text().strip()
+            kategoria_name = self.ui.EgyszeriKategoria.currentText()
+            
+            # Validation
+            if not partner:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Kérlek, add meg a partnert!")
+                return
+            
+            if not kategoria_name:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Kérlek, válassz kategóriát!")
+                return
+            
+            # Check if income or expense
+            if self.ui.EgyszeriKiadas.isChecked():
+                osszeg = -abs(osszeg)  # Expenses are negative
+            elif self.ui.EgyszeriBevetel.isChecked():
+                osszeg = abs(osszeg)  # Income is positive
+            else:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Kérlek, válaszd ki, hogy bevétel vagy kiadás!")
+                return
+            
+            try:
+                # Get category object
+                categories = self.db_manager.get_all_cat()
+                category = next((cat for cat in categories if cat.name == kategoria_name), None)
+                
+                if not category:
+                    QtWidgets.QMessageBox.warning(self, "Hiba", "Kategória nem található!")
+                    return
+                
+                # Add transaction to database
+                self.db_manager.add_trans(
+                    money=osszeg,
+                    from_to=partner,
+                    date_=date_module.today(),
+                    categories=[category]
+                )
+                
+                # Update balance
+                self.update_balance()
+                
+                # Clear form
+                self.ui.EgyszeriOsszeg.clear()
+                self.ui.EgyszeriPartner.clear()
+                self.ui.EgyszeriBevetel.setChecked(False)
+                self.ui.EgyszeriKiadas.setChecked(False)
+                
+                # Refresh transactions page if it exists
+                if hasattr(self, 'transaction_model'):
+                    self.load_all_transactions()
+                
+                # Refresh statistics if it exists
+                if hasattr(self, 'stats_widget'):
+                    self.stats_widget.update_statistics()
+                
+                QtWidgets.QMessageBox.information(self, "Siker", "Tranzakció sikeresen hozzáadva!")
+                
+            except Exception as e:
+                QtWidgets.QMessageBox.critical(self, "Hiba", f"Hiba történt: {str(e)}")
+        
+        def rendszeres_kesz_megnyomva(self):
+            """Handle recurring transaction submission - saves as recurring transaction template"""
+            from datetime import date as date_module
+            
+            osszeg_str = self.ui.RenszeresOsszeg.text()
+            try:
+                osszeg = float(osszeg_str) if osszeg_str else 0
+            except ValueError:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Érvénytelen összeg!")
+                return
+            
+            partner = self.ui.RendszeresPartner.text().strip()
+            kategoria_name = self.ui.RendszeresKategoria.currentText()
+            
+            # Validation
+            if not partner:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Kérlek, add meg a partnert!")
+                return
+            
+            if not kategoria_name:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Kérlek, válassz kategóriát!")
+                return
+            
+            # Check if income or expense
+            if self.ui.RendszeresKiadas.isChecked():
+                osszeg = -abs(osszeg)
+            elif self.ui.RendszeresBevetel.isChecked():
+                osszeg = abs(osszeg)
+            else:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Kérlek, válaszd ki, hogy bevétel vagy kiadás!")
+                return
+            
+            try:
+                # Get category object
+                categories = self.db_manager.get_all_cat()
+                category = next((cat for cat in categories if cat.name == kategoria_name), None)
+                
+                if not category:
+                    QtWidgets.QMessageBox.warning(self, "Hiba", "Kategória nem található!")
+                    return
+                
+                # Get the start date from dateEdit
+                qdate = self.ui.dateEdit.date()
+                start_date = date_module(qdate.year(), qdate.month(), qdate.day())
+                
+                # Add recurring transaction to database
+                self.db_manager.add_recurring_trans(
+                    money=osszeg,
+                    from_to=partner,
+                    start_date=start_date,
+                    category=category
+                )
+                
+                # Clear form
+                self.ui.RenszeresOsszeg.clear()
+                self.ui.RendszeresPartner.clear()
+                self.ui.RendszeresBevetel.setChecked(False)
+                self.ui.RendszeresKiadas.setChecked(False)
+                
+                # Reload recurring transactions list
+                self.load_recurring_list()
+                
+                QtWidgets.QMessageBox.information(self, "Siker", "Rendszeres tranzakció sikeresen hozzáadva!")
+                
+            except Exception as e:
+                QtWidgets.QMessageBox.critical(self, "Hiba", f"Hiba történt: {str(e)}")
+        
+        def load_recurring_list(self):
+            """Load recurring transactions into dropdown"""
+            recurring_list = self.db_manager.get_recurring_trans_as_list()
+            
+            self.ui.RendszeresValasztas.clear()
+            
+            # Store the IDs separately for later retrieval
+            self.recurring_ids = {}
+            for rec_id, display_text in recurring_list:
+                self.ui.RendszeresValasztas.addItem(display_text)
+                self.recurring_ids[display_text] = rec_id
+        
+        def rendszeres_torles(self):
+            """Delete selected recurring transaction"""
+            selected_text = self.ui.RendszeresValasztas.currentText()
+            
+            if not selected_text:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Nincs kiválasztott rendszeres tranzakció!")
+                return
+            
+            # Confirm deletion
+            reply = QtWidgets.QMessageBox.question(
+                self, 
+                'Megerősítés', 
+                f"Biztosan törölni szeretnéd ezt a rendszeres tranzakciót?\n{selected_text}",
+                QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No,
+                QtWidgets.QMessageBox.StandardButton.No
+            )
+            
+            if reply == QtWidgets.QMessageBox.StandardButton.Yes:
+                try:
+                    # Get the recurring transaction ID
+                    rec_id = self.recurring_ids.get(selected_text)
+                    
+                    if rec_id:
+                        # Find and delete the recurring transaction
+                        recurring_trans = self.db_manager.get_all_recurring_trans()
+                        recurring = next((rt for rt in recurring_trans if rt.id == rec_id), None)
+                        
+                        if recurring:
+                            self.db_manager.del_recurring_trans(recurring)
+                            self.load_recurring_list()
+                            QtWidgets.QMessageBox.information(self, "Siker", "Rendszeres tranzakció törölve!")
+                        else:
+                            QtWidgets.QMessageBox.warning(self, "Hiba", "Rendszeres tranzakció nem található!")
+                    else:
+                        QtWidgets.QMessageBox.warning(self, "Hiba", "Rendszeres tranzakció nem található!")
+                except Exception as e:
+                    QtWidgets.QMessageBox.critical(self, "Hiba", f"Hiba történt: {str(e)}")
+        
+        def update_balance(self):
+            """Calculate and update the current balance from all transactions"""
+            transactions = self.db_manager.get_all_trans()
+            balance = sum(trans.money for trans in transactions)
+            self.ui.label.setText(f"Aktuális egyenleg: {balance:,.2f} Ft")
 
         def lapozas(self, index):
             self.ui.stackedWidget.setCurrentIndex(index)
+
+        def setup_currency_page(self):
+            """Setup currency exchange page with available currencies"""
+            currencies = ["HUF", "USD", "EUR", "GBP", "CHF"]
+            
+            # Populate combo boxes
+            self.ui.DevizaMibol.clear()
+            self.ui.DevizaMibe.clear()
+            self.ui.DevizaMibol.addItems(currencies)
+            self.ui.DevizaMibe.addItems(currencies)
+            
+            # Set default values
+            self.ui.DevizaMibol.setCurrentText("HUF")
+            self.ui.DevizaMibe.setCurrentText("EUR")
+            
+            # Clear output label
+            self.ui.DevizaKimenet.setText("")
+
+        def deviza_valt(self):
+            """Handle currency exchange calculation"""
+            from valutavalto import get_exchange_rate
+            
+            try:
+                amount = float(self.ui.DevizaOsszeg.text())
+                from_currency = self.ui.DevizaMibol.currentText()
+                to_currency = self.ui.DevizaMibe.currentText()
+                
+                result, rate = get_exchange_rate(from_currency, to_currency, amount)
+                
+                if result is not None:
+                    output_text = f"{result:.2f} {to_currency}\n(1 {from_currency} = {rate:.4f} {to_currency})"
+                    self.ui.DevizaKimenet.setText(output_text)
+                    self.ui.DevizaKimenet.setStyleSheet("color: green; font-weight: bold;")
+                else:
+                    self.ui.DevizaKimenet.setText("Hiba az API hívásban")
+                    self.ui.DevizaKimenet.setStyleSheet("color: red;")
+                    
+            except ValueError:
+                self.ui.DevizaKimenet.setText("Érvénytelen összeg!")
+                self.ui.DevizaKimenet.setStyleSheet("color: red;")
+
+        def setup_categories_page(self):
+            """Setup categories page with existing categories"""
+            self.load_categories_list()
+        
+        def load_categories_list(self):
+            """Load all categories into the dropdown and combo boxes"""
+            categories = self.db_manager.get_all_cat()
+            category_names = [cat.name for cat in categories]
+            
+            # Update category selection dropdown
+            self.ui.KategoriaValaszt.clear()
+            self.ui.KategoriaValaszt.addItems(category_names)
+            
+            # Update all other category dropdowns
+            self.ui.EgyszeriKategoria.clear()
+            self.ui.EgyszeriKategoria.addItems(category_names)
+            
+            self.ui.RendszeresKategoria.clear()
+            self.ui.RendszeresKategoria.addItems(category_names)
+            
+            self.ui.FelretetelKategoria.clear()
+            self.ui.FelretetelKategoria.addItems(category_names)
+            
+            self.ui.MultbeliKategoria.clear()
+            self.ui.MultbeliKategoria.addItems(category_names)
+        
+        def add_category(self):
+            """Add a new category to the database"""
+            category_name = self.ui.KategoriaKategoria.text().strip()
+            
+            if not category_name:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Kérlek, add meg a kategória nevét!")
+                return
+            
+            try:
+                self.db_manager.add_cat(category_name)
+                self.load_categories_list()
+                self.ui.KategoriaKategoria.clear()
+                QtWidgets.QMessageBox.information(self, "Siker", f"A '{category_name}' kategória sikeresen hozzáadva!")
+            except Exception as e:
+                QtWidgets.QMessageBox.critical(self, "Hiba", f"Hiba történt: {str(e)}")
+        
+        def delete_category(self):
+            """Delete selected category from the database"""
+            category_name = self.ui.KategoriaValaszt.currentText()
+            
+            if not category_name:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Nincs kiválasztott kategória!")
+                return
+            
+            # Confirm deletion
+            reply = QtWidgets.QMessageBox.question(
+                self, 
+                'Megerősítés', 
+                f"Biztosan törölni szeretnéd a '{category_name}' kategóriát?",
+                QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No,
+                QtWidgets.QMessageBox.StandardButton.No
+            )
+            
+            if reply == QtWidgets.QMessageBox.StandardButton.Yes:
+                try:
+                    # Find the category object
+                    categories = self.db_manager.get_all_cat()
+                    category = next((cat for cat in categories if cat.name == category_name), None)
+                    
+                    if category:
+                        self.db_manager.del_cat(category)
+                        self.load_categories_list()
+                        QtWidgets.QMessageBox.information(self, "Siker", f"A '{category_name}' kategória törölve!")
+                    else:
+                        QtWidgets.QMessageBox.warning(self, "Hiba", "Kategória nem található!")
+                except Exception as e:
+                    QtWidgets.QMessageBox.critical(self, "Hiba", f"Hiba történt: {str(e)}")
+
+        def setup_transactions_page(self):
+            """Setup past transactions page"""
+            from PyQt6.QtGui import QStandardItemModel, QStandardItem
+            
+            # Create table model
+            self.transaction_model = QStandardItemModel()
+            self.transaction_model.setHorizontalHeaderLabels(['Dátum', 'Partner', 'Összeg', 'Kategóriák'])
+            self.ui.MultbeliOutput.setModel(self.transaction_model)
+            
+            # Set column widths
+            self.ui.MultbeliOutput.setColumnWidth(0, 100)
+            self.ui.MultbeliOutput.setColumnWidth(1, 150)
+            self.ui.MultbeliOutput.setColumnWidth(2, 100)
+            self.ui.MultbeliOutput.setColumnWidth(3, 200)
+            
+            # Add "Összes" option to category filter
+            self.ui.MultbeliKategoria.insertItem(0, "Összes")
+            self.ui.MultbeliKategoria.setCurrentIndex(0)
+            
+            # Load all transactions initially
+            self.load_all_transactions()
+        
+        def load_all_transactions(self):
+            """Load all transactions into the table"""
+            from PyQt6.QtGui import QStandardItem
+            
+            transactions = self.db_manager.get_all_trans()
+            
+            self.transaction_model.setRowCount(0)
+            
+            for trans in sorted(transactions, key=lambda t: t.date, reverse=True):
+                date_item = QStandardItem(trans.date.strftime('%Y-%m-%d'))
+                partner_item = QStandardItem(trans.from_to)
+                amount_item = QStandardItem(f"{trans.money:,.2f} Ft")
+                
+                # Get category names
+                category_names = ', '.join([cat.name for cat in trans.categories])
+                categories_item = QStandardItem(category_names)
+                
+                # Color code based on income/expense
+                if trans.money >= 0:
+                    amount_item.setForeground(QtGui.QColor('green'))
+                else:
+                    amount_item.setForeground(QtGui.QColor('red'))
+                
+                self.transaction_model.appendRow([date_item, partner_item, amount_item, categories_item])
+        
+        def search_transactions(self):
+            """Search and filter transactions"""
+            from PyQt6.QtGui import QStandardItem
+            
+            # Get filter criteria
+            category_filter = self.ui.MultbeliKategoria.currentText()
+            amount_filter = self.ui.MultbeliOsszeg.text().strip()
+            
+            # Get all transactions
+            transactions = self.db_manager.get_all_trans()
+            
+            # Apply filters
+            filtered_transactions = []
+            
+            for trans in transactions:
+                # Category filter
+                if category_filter != "Összes":
+                    has_category = any(cat.name == category_filter for cat in trans.categories)
+                    if not has_category:
+                        continue
+                
+                # Amount filter
+                if amount_filter:
+                    try:
+                        filter_amount = float(amount_filter)
+                        if abs(trans.money) < filter_amount:
+                            continue
+                    except ValueError:
+                        pass
+                
+                filtered_transactions.append(trans)
+            
+            # Update table
+            self.transaction_model.setRowCount(0)
+            
+            for trans in sorted(filtered_transactions, key=lambda t: t.date, reverse=True):
+                date_item = QStandardItem(trans.date.strftime('%Y-%m-%d'))
+                partner_item = QStandardItem(trans.from_to)
+                amount_item = QStandardItem(f"{trans.money:,.2f} Ft")
+                
+                # Get category names
+                category_names = ', '.join([cat.name for cat in trans.categories])
+                categories_item = QStandardItem(category_names)
+                
+                # Color code based on income/expense
+                if trans.money >= 0:
+                    amount_item.setForeground(QtGui.QColor('green'))
+                else:
+                    amount_item.setForeground(QtGui.QColor('red'))
+                
+                self.transaction_model.appendRow([date_item, partner_item, amount_item, categories_item])
+
+        def befektetesek_kalkulator(self):
+            """Calculate investment returns based on risk and time period"""
+            try:
+                # Get investment amount
+                osszeg_str = self.ui.BefektetesekOsszeg.text()
+                if not osszeg_str:
+                    QtWidgets.QMessageBox.warning(self, "Hiba", "Kérlek, add meg a befektetési összeget!")
+                    return
+                
+                osszeg = float(osszeg_str)
+                
+                # Check risk level
+                risk = None
+                expected_return = 0
+                if self.ui.BefektetesekAlacsony.isChecked():
+                    risk = "Alacsony"
+                    expected_return = 0.03  # 3% annual return
+                elif self.ui.BefektetesekKozepes.isChecked():
+                    risk = "Közepes"
+                    expected_return = 0.07  # 7% annual return
+                elif self.ui.BefektetesekMagas.isChecked():
+                    risk = "Magas"
+                    expected_return = 0.12  # 12% annual return
+                else:
+                    QtWidgets.QMessageBox.warning(self, "Hiba", "Kérlek, válassz kockázati szintet!")
+                    return
+                
+                # Check time period
+                time_period = None
+                years = 0
+                if self.ui.BefektetesekRovid.isChecked():
+                    time_period = "Rövid"
+                    years = 1
+                elif self.ui.BefektetesekKozepes2.isChecked():
+                    time_period = "Közepes"
+                    years = 3
+                elif self.ui.BefektetesekHosszu.isChecked():
+                    time_period = "Hosszú"
+                    years = 5
+                else:
+                    QtWidgets.QMessageBox.warning(self, "Hiba", "Kérlek, válassz időtávot!")
+                    return
+                
+                # Calculate compound interest
+                final_amount = osszeg * ((1 + expected_return) ** years)
+                profit = final_amount - osszeg
+                
+                # Display results
+                result_text = f"""Befektetési kalkuláció:
+                
+Befektetett összeg: {osszeg:,.0f} Ft
+Kockázat: {risk} ({expected_return*100:.0f}% éves hozam)
+Időtáv: {time_period} ({years} év)
+
+Várható végösszeg: {final_amount:,.0f} Ft
+Várható profit: {profit:,.0f} Ft"""
+                
+                self.ui.BefektetesekKimenet.setText(result_text)
+                self.ui.BefektetesekKimenet.setStyleSheet("color: green; font-weight: bold;")
+                
+            except ValueError:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Érvénytelen összeg!")
+            except Exception as e:
+                QtWidgets.QMessageBox.critical(self, "Hiba", f"Hiba történt: {str(e)}")
 
 
 

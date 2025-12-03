@@ -43,6 +43,16 @@ class cat(Base):
         back_populates="categories"
     )
 
+class RecurringTrans(Base):
+    __tablename__ = "recurring_trans"
+    id = Column(Integer, primary_key=True)
+    money = Column(Float, nullable=False)
+    from_to = Column(String, nullable=False)
+    start_date = Column(Date, nullable=False)
+    category_id = Column(Integer, ForeignKey("cat.id"), nullable=False)
+    
+    category = relationship("cat")
+
 # ---- Táblák létrehozása ----
 Base.metadata.create_all(engine)
 
@@ -71,7 +81,53 @@ class TransactionManager:
         return trans
 
     def get_all_trans(self):
-        return self.session.query(Trans).all()
+        """
+        Get all transactions including one-time and generated from recurring.
+        Returns: List of Trans objects
+        """
+        from datetime import date as date_module
+        
+        # Get all one-time transactions
+        all_trans = self.session.query(Trans).all()
+        
+        # Get all recurring transactions and generate Trans objects for each month
+        recurring_trans = self.session.query(RecurringTrans).all()
+        today = date_module.today()
+        
+        for recurring in recurring_trans:
+            current_date = recurring.start_date
+            
+            # Generate monthly transactions from start_date to today
+            while current_date <= today:
+                # Create a virtual Trans object (not saved to DB)
+                virtual_trans = Trans(
+                    money=recurring.money,
+                    from_to=recurring.from_to,
+                    date=current_date
+                )
+                # Set the category
+                virtual_trans.categories = [recurring.category]
+                all_trans.append(virtual_trans)
+                
+                # Add one month
+                if current_date.month == 12:
+                    try:
+                        current_date = current_date.replace(year=current_date.year + 1, month=1)
+                    except ValueError:
+                        current_date = current_date.replace(year=current_date.year + 1, month=2, day=28)
+                else:
+                    try:
+                        current_date = current_date.replace(month=current_date.month + 1)
+                    except ValueError:
+                        next_month = current_date.month + 1
+                        if next_month == 2:
+                            current_date = current_date.replace(month=next_month, day=28)
+                        elif next_month in [4, 6, 9, 11]:
+                            current_date = current_date.replace(month=next_month, day=30)
+                        else:
+                            current_date = current_date.replace(month=next_month, day=31)
+        
+        return all_trans
 
     # ---- Kategóriák ----
     def add_cat(self, name: str):
@@ -153,3 +209,42 @@ class TransactionManager:
         Returns: List of cat objects
         """
         return self.session.query(cat).all()
+
+    # ---- Rendszeres tranzakciók ----
+    def add_recurring_trans(self, money: float, from_to: str, start_date: date, category: cat):
+        """
+        Rendszeres tranzakció hozzáadása.
+        """
+        recurring = RecurringTrans(
+            money=money,
+            from_to=from_to,
+            start_date=start_date,
+            category_id=category.id
+        )
+        self.session.add(recurring)
+        self.session.commit()
+        print(f"Rendszeres tranzakció hozzáadva: {recurring.from_to}, {recurring.money}")
+        return recurring
+
+    def get_all_recurring_trans(self):
+        """
+        Összes rendszeres tranzakció lekérése.
+        """
+        return self.session.query(RecurringTrans).all()
+
+    def del_recurring_trans(self, recurring: RecurringTrans):
+        """
+        Rendszeres tranzakció törlése.
+        """
+        self.session.delete(recurring)
+        self.session.commit()
+        print(f"Rendszeres tranzakció törölve: {recurring.from_to}")
+
+    def get_recurring_trans_as_list(self):
+        """
+        Rendszeres tranzakciók listája megjelenítéshez.
+        Returns: List of tuples (id, display_string)
+        """
+        recurring_trans = self.get_all_recurring_trans()
+        return [(rt.id, f"{rt.from_to} - {rt.money:,.0f} Ft ({rt.category.name})") 
+                for rt in recurring_trans]
