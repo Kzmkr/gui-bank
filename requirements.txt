@@ -4,3 +4,4 @@
 SQLAlchemy>=1.4,<3.0
 PyQt6>=6.0.0
 requests>=2.25.0
+matplotlib>=3.0.0

@@ -79,7 +79,7 @@ class Ui_MainWindow(object):
         self.EgyszeriPartner.setGeometry(QtCore.QRect(10, 100, 113, 21))
         self.EgyszeriPartner.setObjectName("EgyszeriPartner")
         self.EgyszeriKategoria = QtWidgets.QComboBox(parent=self.tab)
-        self.EgyszeriKategoria.setGeometry(QtCore.QRect(20, 170, 68, 22))
+        self.EgyszeriKategoria.setGeometry(QtCore.QRect(20, 170, 168, 22))
         self.EgyszeriKategoria.setObjectName("EgyszeriKategoria")
         self.label_2 = QtWidgets.QLabel(parent=self.tab)
         self.label_2.setGeometry(QtCore.QRect(20, 10, 131, 16))
@@ -115,7 +115,7 @@ class Ui_MainWindow(object):
         self.label_8.setGeometry(QtCore.QRect(10, 170, 101, 16))
         self.label_8.setObjectName("label_8")
         self.RendszeresKategoria = QtWidgets.QComboBox(parent=self.tab_2)
-        self.RendszeresKategoria.setGeometry(QtCore.QRect(20, 200, 68, 22))
+        self.RendszeresKategoria.setGeometry(QtCore.QRect(20, 200, 168, 22))
         self.RendszeresKategoria.setObjectName("RendszeresKategoria")
         self.RendszeresKesz = QtWidgets.QPushButton(parent=self.tab_2)
         self.RendszeresKesz.setGeometry(QtCore.QRect(20, 290, 75, 24))
@@ -133,7 +133,7 @@ class Ui_MainWindow(object):
         self.label_17.setGeometry(QtCore.QRect(140, 170, 141, 16))
         self.label_17.setObjectName("label_17")
         self.RendszeresValasztas = QtWidgets.QComboBox(parent=self.tab_2)
-        self.RendszeresValasztas.setGeometry(QtCore.QRect(20, 380, 68, 22))
+        self.RendszeresValasztas.setGeometry(QtCore.QRect(20, 380, 168, 22))
         self.RendszeresValasztas.setObjectName("RendszeresValasztas")
         self.label_18 = QtWidgets.QLabel(parent=self.tab_2)
         self.label_18.setGeometry(QtCore.QRect(20, 340, 151, 16))
@@ -193,9 +193,10 @@ class Ui_MainWindow(object):
         self.BefektetesekKesz.setGeometry(QtCore.QRect(20, 210, 75, 24))
         self.BefektetesekKesz.setObjectName("BefektetesekKesz")
         self.BefektetesekKimenet = QtWidgets.QLabel(parent=self.Befektetesek)
-        self.BefektetesekKimenet.setGeometry(QtCore.QRect(20, 250, 400, 80))
+        self.BefektetesekKimenet.setGeometry(QtCore.QRect(20, 250, 580, 300))
         self.BefektetesekKimenet.setObjectName("BefektetesekKimenet")
         self.BefektetesekKimenet.setWordWrap(True)
+        self.BefektetesekKimenet.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
         self.stackedWidget.addWidget(self.Befektetesek)
         self.Statisztika = QtWidgets.QWidget()
         self.Statisztika.setObjectName("Statisztika")
@@ -212,11 +213,14 @@ class Ui_MainWindow(object):
         self.FelretetelOsszeg.setGeometry(QtCore.QRect(0, 30, 113, 21))
         self.FelretetelOsszeg.setObjectName("FelretetelOsszeg")
         self.FelretetelKategoria = QtWidgets.QComboBox(parent=self.Felretetel)
-        self.FelretetelKategoria.setGeometry(QtCore.QRect(10, 110, 68, 22))
+        self.FelretetelKategoria.setGeometry(QtCore.QRect(10, 110, 168, 22))
         self.FelretetelKategoria.setObjectName("FelretetelKategoria")
         self.FelretetelTorles = QtWidgets.QPushButton(parent=self.Felretetel)
-        self.FelretetelTorles.setGeometry(QtCore.QRect(10, 150, 101, 24))
+        self.FelretetelTorles.setGeometry(QtCore.QRect(10, 150, 111, 24))
         self.FelretetelTorles.setObjectName("FelretetelTorles")
+        self.FelretetelLista = QtWidgets.QListWidget(parent=self.Felretetel)
+        self.FelretetelLista.setGeometry(QtCore.QRect(170, 10, 431, 521))
+        self.FelretetelLista.setObjectName("FelretetelLista")
         self.stackedWidget.addWidget(self.Felretetel)
         self.MultbeliTranzakciok = QtWidgets.QWidget()
         self.MultbeliTranzakciok.setObjectName("MultbeliTranzakciok")
@@ -224,26 +228,52 @@ class Ui_MainWindow(object):
         self.MultbeliOutput.setGeometry(QtCore.QRect(25, 111, 581, 441))
         self.MultbeliOutput.setObjectName("MultbeliOutput")
         self.MultbeliKesz = QtWidgets.QPushButton(parent=self.MultbeliTranzakciok)
-        self.MultbeliKesz.setGeometry(QtCore.QRect(520, 70, 91, 24))
+        self.MultbeliKesz.setGeometry(QtCore.QRect(420, 70, 91, 24))
         self.MultbeliKesz.setObjectName("MultbeliKesz")
+        self.MultbeliMindent = QtWidgets.QPushButton(parent=self.MultbeliTranzakciok)
+        self.MultbeliMindent.setGeometry(QtCore.QRect(520, 70, 91, 24))
+        self.MultbeliMindent.setObjectName("MultbeliMindent")
         self.MultbeliKategoria = QtWidgets.QComboBox(parent=self.MultbeliTranzakciok)
-        self.MultbeliKategoria.setGeometry(QtCore.QRect(10, 60, 68, 22))
+        self.MultbeliKategoria.setGeometry(QtCore.QRect(10, 60, 98, 22))
         self.MultbeliKategoria.setObjectName("MultbeliKategoria")
         self.label_13 = QtWidgets.QLabel(parent=self.MultbeliTranzakciok)
         self.label_13.setGeometry(QtCore.QRect(10, 20, 61, 16))
         self.label_13.setObjectName("label_13")
-        self.MultbeliIdo = QtWidgets.QTimeEdit(parent=self.MultbeliTranzakciok)
-        self.MultbeliIdo.setGeometry(QtCore.QRect(130, 60, 118, 22))
-        self.MultbeliIdo.setObjectName("MultbeliIdo")
+        # Date range filters
+        self.MultbeliDatumTol = QtWidgets.QDateEdit(parent=self.MultbeliTranzakciok)
+        self.MultbeliDatumTol.setGeometry(QtCore.QRect(100, 30, 110, 22))
+        self.MultbeliDatumTol.setCalendarPopup(True)
+        self.MultbeliDatumTol.setObjectName("MultbeliDatumTol")
+        self.MultbeliDatumIg = QtWidgets.QDateEdit(parent=self.MultbeliTranzakciok)
+        self.MultbeliDatumIg.setGeometry(QtCore.QRect(100, 60, 110, 22))
+        self.MultbeliDatumIg.setCalendarPopup(True)
+        self.MultbeliDatumIg.setObjectName("MultbeliDatumIg")
         self.label_14 = QtWidgets.QLabel(parent=self.MultbeliTranzakciok)
-        self.label_14.setGeometry(QtCore.QRect(130, 20, 49, 16))
+        self.label_14.setGeometry(QtCore.QRect(100, 10, 80, 16))
         self.label_14.setObjectName("label_14")
+        self.label_14_2 = QtWidgets.QLabel(parent=self.MultbeliTranzakciok)
+        self.label_14_2.setGeometry(QtCore.QRect(220, 35, 20, 16))
+        self.label_14_2.setObjectName("label_14_2")
+        # Amount range filters
         self.label_15 = QtWidgets.QLabel(parent=self.MultbeliTranzakciok)
-        self.label_15.setGeometry(QtCore.QRect(300, 10, 49, 16))
+        self.label_15.setGeometry(QtCore.QRect(250, 10, 80, 16))
         self.label_15.setObjectName("label_15")
-        self.MultbeliOsszeg = QtWidgets.QLineEdit(parent=self.MultbeliTranzakciok)
-        self.MultbeliOsszeg.setGeometry(QtCore.QRect(300, 50, 113, 21))
-        self.MultbeliOsszeg.setObjectName("MultbeliOsszeg")
+        self.MultbeliOsszegMin = QtWidgets.QLineEdit(parent=self.MultbeliTranzakciok)
+        self.MultbeliOsszegMin.setGeometry(QtCore.QRect(250, 30, 80, 21))
+        self.MultbeliOsszegMin.setObjectName("MultbeliOsszegMin")
+        self.MultbeliOsszegMax = QtWidgets.QLineEdit(parent=self.MultbeliTranzakciok)
+        self.MultbeliOsszegMax.setGeometry(QtCore.QRect(250, 60, 80, 21))
+        self.MultbeliOsszegMax.setObjectName("MultbeliOsszegMax")
+        self.label_15_2 = QtWidgets.QLabel(parent=self.MultbeliTranzakciok)
+        self.label_15_2.setGeometry(QtCore.QRect(340, 45, 20, 16))
+        self.label_15_2.setObjectName("label_15_2")
+        # Partner search filter
+        self.label_partner = QtWidgets.QLabel(parent=self.MultbeliTranzakciok)
+        self.label_partner.setGeometry(QtCore.QRect(370, 10, 80, 16))
+        self.label_partner.setObjectName("label_partner")
+        self.MultbeliPartner = QtWidgets.QLineEdit(parent=self.MultbeliTranzakciok)
+        self.MultbeliPartner.setGeometry(QtCore.QRect(370, 30, 130, 21))
+        self.MultbeliPartner.setObjectName("MultbeliPartner")
         self.stackedWidget.addWidget(self.MultbeliTranzakciok)
         self.Kategoriak = QtWidgets.QWidget()
         self.Kategoriak.setObjectName("Kategoriak")
@@ -256,11 +286,21 @@ class Ui_MainWindow(object):
         self.KategoriaKesz = QtWidgets.QPushButton(parent=self.Kategoriak)
         self.KategoriaKesz.setGeometry(QtCore.QRect(30, 80, 75, 24))
         self.KategoriaKesz.setObjectName("KategoriaKesz")
+        # Right side - manage existing categories
+        self.label_kategoria_valaszt = QtWidgets.QLabel(parent=self.Kategoriak)
+        self.label_kategoria_valaszt.setGeometry(QtCore.QRect(250, 10, 150, 16))
+        self.label_kategoria_valaszt.setObjectName("label_kategoria_valaszt")
         self.KategoriaValaszt = QtWidgets.QComboBox(parent=self.Kategoriak)
-        self.KategoriaValaszt.setGeometry(QtCore.QRect(420, 20, 68, 22))
+        self.KategoriaValaszt.setGeometry(QtCore.QRect(250, 30, 150, 22))
         self.KategoriaValaszt.setObjectName("KategoriaValaszt")
+        self.KategoriaUjNev = QtWidgets.QLineEdit(parent=self.Kategoriak)
+        self.KategoriaUjNev.setGeometry(QtCore.QRect(250, 70, 150, 21))
+        self.KategoriaUjNev.setObjectName("KategoriaUjNev")
+        self.KategoriaAtnevez = QtWidgets.QPushButton(parent=self.Kategoriak)
+        self.KategoriaAtnevez.setGeometry(QtCore.QRect(250, 100, 100, 24))
+        self.KategoriaAtnevez.setObjectName("KategoriaAtnevez")
         self.KategoriaTorles = QtWidgets.QPushButton(parent=self.Kategoriak)
-        self.KategoriaTorles.setGeometry(QtCore.QRect(400, 70, 121, 24))
+        self.KategoriaTorles.setGeometry(QtCore.QRect(360, 100, 100, 24))
         self.KategoriaTorles.setObjectName("KategoriaTorles")
         self.stackedWidget.addWidget(self.Kategoriak)
         self.DevizaValtasa = QtWidgets.QWidget()
@@ -319,7 +359,7 @@ class Ui_MainWindow(object):
         self.RendszeresKesz.setText(_translate("MainWindow", "Kész"))
         self.RendszeresBevetel.setText(_translate("MainWindow", "Bevétel"))
         self.RendszeresKiadas.setText(_translate("MainWindow", "Kiadás"))
-        self.label_17.setText(_translate("MainWindow", "Mikor lesz az első ualás?"))
+        self.label_17.setText(_translate("MainWindow", "Kezdeti dátum"))
         self.label_18.setText(_translate("MainWindow", "Melyiket szeretnéd törölni?"))
         self.RendszeresTorles.setText(_translate("MainWindow", "Törlés"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Rendszeres"))
@@ -338,12 +378,22 @@ class Ui_MainWindow(object):
         self.label_12.setText(_translate("MainWindow", "Összeg:"))
         self.FelretetelTorles.setText(_translate("MainWindow", "Félretétel törlése"))
         self.MultbeliKesz.setText(_translate("MainWindow", "Keresés"))
+        self.MultbeliMindent.setText(_translate("MainWindow", "Mindent mutat"))
         self.label_13.setText(_translate("MainWindow", "Kategória"))
-        self.label_14.setText(_translate("MainWindow", "Idő"))
-        self.label_15.setText(_translate("MainWindow", "Ár szerint"))
-        self.label_16.setText(_translate("MainWindow", "Kategória neve"))
+        self.label_14.setText(_translate("MainWindow", "Dátum"))
+        self.label_14_2.setText(_translate("MainWindow", "-"))
+        self.label_15.setText(_translate("MainWindow", "Összeg"))
+        self.label_15_2.setText(_translate("MainWindow", "-"))
+        self.label_partner.setText(_translate("MainWindow", "Partner"))
+        self.MultbeliOsszegMin.setPlaceholderText(_translate("MainWindow", "Min"))
+        self.MultbeliOsszegMax.setPlaceholderText(_translate("MainWindow", "Max"))
+        self.MultbeliPartner.setPlaceholderText(_translate("MainWindow", "Keresés..."))
+        self.label_16.setText(_translate("MainWindow", "Új kategória neve"))
         self.KategoriaKesz.setText(_translate("MainWindow", "Hozzáadás"))
-        self.KategoriaTorles.setText(_translate("MainWindow", "Kategória törlése"))
+        self.label_kategoria_valaszt.setText(_translate("MainWindow", "Kategória kezelése"))
+        self.KategoriaUjNev.setPlaceholderText(_translate("MainWindow", "Új név..."))
+        self.KategoriaAtnevez.setText(_translate("MainWindow", "Átnevezés"))
+        self.KategoriaTorles.setText(_translate("MainWindow", "Törlés"))
         self.label_11.setText(_translate("MainWindow", "Összeg:"))
         self.DevizaKimenet.setText(_translate("MainWindow", "TextLabel"))
         self.DevizaKesz.setText(_translate("MainWindow", "Futtatás"))
@@ -365,17 +415,8 @@ if __name__ == "__main__":
             # Initialize database manager
             self.db_manager = TransactionManager()
 
-            # --- JSON betöltés induláskor ---
-            try:
-                with open("adat.json", "r", encoding="utf-8") as f:
-                    adat = json.load(f)
-                    self.ertek = int(adat.get("szam", 0))
-            except (FileNotFoundError, ValueError):
-                self.ertek = 0
-
-            # QLabel frissítése a betöltött értékkel
-            self.ui.label.setText(str(self.ertek))
-            # --- JSON betöltés vége ---
+            # Update balance from database on startup
+            self.update_balance()
 
             # Bal oldali gombok összekötése a lapozó függvénnyel
             self.ui.pushButton.clicked.connect(lambda: self.lapozas(0))
@@ -406,11 +447,18 @@ if __name__ == "__main__":
             # Kategóriák page beállítása
             self.setup_categories_page()
             self.ui.KategoriaKesz.clicked.connect(self.add_category)
+            self.ui.KategoriaAtnevez.clicked.connect(self.rename_category)
             self.ui.KategoriaTorles.clicked.connect(self.delete_category)
+            # Félretétel buttons and list
+            self.ui.FelretetelKesz.clicked.connect(self.add_saving)
+            self.ui.FelretetelTorles.clicked.connect(self.delete_saving)
+            # Load existing savings into the list
+            self.load_savings_list()
             
             # Múltbéli tranzakciók page beállítása
             self.setup_transactions_page()
             self.ui.MultbeliKesz.clicked.connect(self.search_transactions)
+            self.ui.MultbeliMindent.clicked.connect(self.show_all_transactions)
             
             # Befektetések page beállítása
             self.ui.BefektetesekKesz.clicked.connect(self.befektetesek_kalkulator)
@@ -548,6 +596,10 @@ if __name__ == "__main__":
                 
                 # Reload recurring transactions list
                 self.load_recurring_list()
+                
+                # Refresh statistics if it exists
+                if hasattr(self, 'stats_widget'):
+                    self.stats_widget.update_statistics()
                 
                 QtWidgets.QMessageBox.information(self, "Siker", "Rendszeres tranzakció sikeresen hozzáadva!")
                 
@@ -726,10 +778,59 @@ if __name__ == "__main__":
                         QtWidgets.QMessageBox.warning(self, "Hiba", "Kategória nem található!")
                 except Exception as e:
                     QtWidgets.QMessageBox.critical(self, "Hiba", f"Hiba történt: {str(e)}")
+        
+        def rename_category(self):
+            """Rename selected category in the database"""
+            category_name = self.ui.KategoriaValaszt.currentText()
+            new_name = self.ui.KategoriaUjNev.text().strip()
+            
+            if not category_name:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Nincs kiválasztott kategória!")
+                return
+            
+            if not new_name:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Kérlek, add meg az új kategória nevet!")
+                return
+            
+            if category_name == new_name:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Az új név megegyezik a régivel!")
+                return
+            
+            # Check if new name already exists
+            categories = self.db_manager.get_all_cat()
+            if any(cat.name == new_name for cat in categories):
+                QtWidgets.QMessageBox.warning(self, "Hiba", f"A '{new_name}' kategória már létezik!")
+                return
+            
+            # Confirm rename
+            reply = QtWidgets.QMessageBox.question(
+                self, 
+                'Megerősítés', 
+                f"Biztosan át szeretnéd nevezni a '{category_name}' kategóriát erre: '{new_name}'?",
+                QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No,
+                QtWidgets.QMessageBox.StandardButton.No
+            )
+            
+            if reply == QtWidgets.QMessageBox.StandardButton.Yes:
+                try:
+                    # Find the category object
+                    category = next((cat for cat in categories if cat.name == category_name), None)
+                    
+                    if category:
+                        self.db_manager.rename_cat(category, new_name)
+                        self.load_categories_list()
+                        self.ui.KategoriaUjNev.clear()
+                        QtWidgets.QMessageBox.information(self, "Siker", 
+                            f"A '{category_name}' kategória sikeresen átnevezve erre: '{new_name}'!")
+                    else:
+                        QtWidgets.QMessageBox.warning(self, "Hiba", "Kategória nem található!")
+                except Exception as e:
+                    QtWidgets.QMessageBox.critical(self, "Hiba", f"Hiba történt: {str(e)}")
 
         def setup_transactions_page(self):
             """Setup past transactions page"""
             from PyQt6.QtGui import QStandardItemModel, QStandardItem
+            from datetime import datetime, timedelta
             
             # Create table model
             self.transaction_model = QStandardItemModel()
@@ -745,6 +846,12 @@ if __name__ == "__main__":
             # Add "Összes" option to category filter
             self.ui.MultbeliKategoria.insertItem(0, "Összes")
             self.ui.MultbeliKategoria.setCurrentIndex(0)
+            
+            # Setup date filters with default values (last 30 days)
+            today = QtCore.QDate.currentDate()
+            epoch = QtCore.QDate(1970, 1, 1) 
+            self.ui.MultbeliDatumTol.setDate(epoch)
+            self.ui.MultbeliDatumIg.setDate(today)
             
             # Load all transactions initially
             self.load_all_transactions()
@@ -775,12 +882,37 @@ if __name__ == "__main__":
                 self.transaction_model.appendRow([date_item, partner_item, amount_item, categories_item])
         
         def search_transactions(self):
-            """Search and filter transactions"""
+            """Search and filter transactions based on all filter criteria"""
             from PyQt6.QtGui import QStandardItem
+            from datetime import datetime
             
             # Get filter criteria
             category_filter = self.ui.MultbeliKategoria.currentText()
-            amount_filter = self.ui.MultbeliOsszeg.text().strip()
+            partner_filter = self.ui.MultbeliPartner.text().strip().lower()
+            
+            # Get date range
+            date_from = self.ui.MultbeliDatumTol.date().toPyDate()
+            date_to = self.ui.MultbeliDatumIg.date().toPyDate()
+            
+            # Get amount range
+            amount_min = None
+            amount_max = None
+            
+            try:
+                min_text = self.ui.MultbeliOsszegMin.text().strip()
+                if min_text:
+                    amount_min = float(min_text)
+            except ValueError:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Érvénytelen minimum összeg!")
+                return
+            
+            try:
+                max_text = self.ui.MultbeliOsszegMax.text().strip()
+                if max_text:
+                    amount_max = float(max_text)
+            except ValueError:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Érvénytelen maximum összeg!")
+                return
             
             # Get all transactions
             transactions = self.db_manager.get_all_trans()
@@ -789,20 +921,27 @@ if __name__ == "__main__":
             filtered_transactions = []
             
             for trans in transactions:
+                # Date range filter
+                if trans.date < date_from or trans.date > date_to:
+                    continue
+                
                 # Category filter
                 if category_filter != "Összes":
                     has_category = any(cat.name == category_filter for cat in trans.categories)
                     if not has_category:
                         continue
                 
-                # Amount filter
-                if amount_filter:
-                    try:
-                        filter_amount = float(amount_filter)
-                        if abs(trans.money) < filter_amount:
-                            continue
-                    except ValueError:
-                        pass
+                # Partner search filter (case-insensitive, partial match)
+                if partner_filter:
+                    if partner_filter not in trans.from_to.lower():
+                        continue
+                
+                # Amount range filter (absolute value)
+                abs_amount = abs(trans.money)
+                if amount_min is not None and abs_amount < amount_min:
+                    continue
+                if amount_max is not None and abs_amount > amount_max:
+                    continue
                 
                 filtered_transactions.append(trans)
             
@@ -825,6 +964,45 @@ if __name__ == "__main__":
                     amount_item.setForeground(QtGui.QColor('red'))
                 
                 self.transaction_model.appendRow([date_item, partner_item, amount_item, categories_item])
+            
+            # Show info message if no results
+            if len(filtered_transactions) == 0:
+                QtWidgets.QMessageBox.information(self, "Nincs találat", 
+                    "Nincs a szűrési feltételeknek megfelelő tranzakció.")
+        
+        def show_all_transactions(self):
+            """Clear all filters and show all transactions"""
+            from datetime import datetime
+            
+            # Reset category filter
+            self.ui.MultbeliKategoria.setCurrentIndex(0)  # "Összes"
+            
+            # Reset partner search
+            self.ui.MultbeliPartner.clear()
+            
+            # Reset amount filters
+            self.ui.MultbeliOsszegMin.clear()
+            self.ui.MultbeliOsszegMax.clear()
+            
+            # Reset date filters to show all dates
+            # Set to a very wide range to capture all transactions
+            transactions = self.db_manager.get_all_trans()
+            if transactions:
+                # Find earliest and latest dates
+                dates = [t.date for t in transactions]
+                earliest = min(dates)
+                latest = max(dates)
+                
+                self.ui.MultbeliDatumTol.setDate(QtCore.QDate(earliest.year, earliest.month, earliest.day))
+                self.ui.MultbeliDatumIg.setDate(QtCore.QDate(latest.year, latest.month, latest.day))
+            else:
+                # Default to today if no transactions
+                today = QtCore.QDate.currentDate()
+                self.ui.MultbeliDatumTol.setDate(today.addDays(-30))
+                self.ui.MultbeliDatumIg.setDate(today)
+            
+            # Reload all transactions
+            self.load_all_transactions()
 
         def befektetesek_kalkulator(self):
             """Calculate investment returns based on risk and time period"""
@@ -890,6 +1068,67 @@ Várható profit: {profit:,.0f} Ft"""
                 QtWidgets.QMessageBox.warning(self, "Hiba", "Érvénytelen összeg!")
             except Exception as e:
                 QtWidgets.QMessageBox.critical(self, "Hiba", f"Hiba történt: {str(e)}")
+
+
+        # ---- Félretétel kezelése ----
+        def load_savings_list(self):
+            """Betölti az adatbázisból a félretett tételeket és megjeleníti a listában."""
+            try:
+                self.ui.FelretetelLista.clear()
+                items = self.db_manager.get_savings_as_list()
+                for sid, text in items:
+                    item = QtWidgets.QListWidgetItem(text)
+                    item.setData(QtCore.Qt.ItemDataRole.UserRole, sid)
+                    self.ui.FelretetelLista.addItem(item)
+            except Exception as e:
+                QtWidgets.QMessageBox.critical(self, "Hiba", f"Nem sikerült betölteni a félretett tételeket: {e}")
+
+        def add_saving(self):
+            """Ment egy új félretételt az adatbázisba és frissíti a listát."""
+            osszeg_str = self.ui.FelretetelOsszeg.text().strip()
+            try:
+                osszeg = float(osszeg_str)
+            except ValueError:
+                QtWidgets.QMessageBox.warning(self, "Hiba", "Kérlek, számot adj meg összegnek!")
+                return
+
+            try:
+                # get selected category (if any)
+                kategoria_name = self.ui.FelretetelKategoria.currentText()
+                category_obj = None
+                if kategoria_name:
+                    cats = self.db_manager.get_all_cat()
+                    category_obj = next((c for c in cats if c.name == kategoria_name), None)
+
+                self.db_manager.save_savings(osszeg, category=category_obj)
+                self.load_savings_list()
+                self.ui.FelretetelOsszeg.clear()
+                self.update_balance()
+                QtWidgets.QMessageBox.information(self, "Siker", "Félretett összeg mentve.")
+            except Exception as e:
+                QtWidgets.QMessageBox.critical(self, "Hiba", f"Nem sikerült menteni: {e}")
+
+        def delete_saving(self):
+            """Törli a kiválasztott félretételt az adatbázisból."""
+            item = self.ui.FelretetelLista.currentItem()
+            if not item:
+                QtWidgets.QMessageBox.information(self, "Info", "Nincs kiválasztva tétel.")
+                return
+
+            sid = item.data(QtCore.Qt.ItemDataRole.UserRole)
+            try:
+                # import Savings model locally to avoid circulars
+                from db_manager import Savings
+                saving_obj = self.db_manager.session.query(Savings).filter_by(id=sid).first()
+                if saving_obj:
+                    self.db_manager.del_savings(saving_obj)
+                    self.load_savings_list()
+                    self.update_balance()
+                    QtWidgets.QMessageBox.information(self, "Siker", "Félretétel törölve.")
+                else:
+                    QtWidgets.QMessageBox.warning(self, "Hiba", "A kiválasztott tétel nem található.")
+            except Exception as e:
+                QtWidgets.QMessageBox.critical(self, "Hiba", f"Törlés sikertelen: {e}")
 
 
 

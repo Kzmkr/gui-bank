@@ -3,6 +3,7 @@ import json
 import requests
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QMessageBox
+from db_manager import TransactionManager
 
 # --- Generált UI kód kezdete ---
 class Ui_MainWindow(object):
@@ -195,6 +196,9 @@ class Ui_MainWindow(object):
         self.FelretetelTorles = QtWidgets.QPushButton(parent=self.Felretetel)
         self.FelretetelTorles.setGeometry(QtCore.QRect(10, 150, 101, 24))
         self.FelretetelTorles.setObjectName("FelretetelTorles")
+        self.FelretetelLista = QtWidgets.QListWidget(parent=self.Felretetel)
+        self.FelretetelLista.setGeometry(QtCore.QRect(170, 10, 431, 521))
+        self.FelretetelLista.setObjectName("FelretetelLista")
         self.stackedWidget.addWidget(self.Felretetel)
         self.MultbeliTranzakciok = QtWidgets.QWidget()
         self.MultbeliTranzakciok.setObjectName("MultbeliTranzakciok")
@@ -367,6 +371,15 @@ class MainWindow(QtWidgets.QMainWindow):
         # Egyszeri gomb esemény
         self.ui.EgyszeriKesz.clicked.connect(self.egyszeri_kesz_megnyomva)
 
+        # --- Félretétel DB és lista kezelése ---
+        self.tx = TransactionManager()
+        # Feltölti a listát indításkor
+        self.load_savings_list()
+
+        # Gombok összekötése
+        self.ui.FelretetelKesz.clicked.connect(self.add_saving)
+        self.ui.FelretetelTorles.clicked.connect(self.delete_saving)
+
     # Ez a függvény hiányzott az eredeti kódból, pedig a gombok hivatkoztak rá!
     def lapozas(self, index):
         self.ui.stackedWidget.setCurrentIndex(index)
@@ -438,6 +451,65 @@ class MainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             print(e)
             self.ui.DevizaKimenet.setText("Hiba")
+
+    # ---- Félretétel: GUI helpers ----
+    def load_savings_list(self):
+        """Betölti az adatbázisból a félretett tételeket és megjeleníti a listában."""
+        try:
+            self.ui.FelretetelLista.clear()
+            items = self.tx.get_savings_as_list()
+            for sid, text in items:
+                item = QtWidgets.QListWidgetItem(text)
+                item.setData(QtCore.Qt.ItemDataRole.UserRole, sid)
+                self.ui.FelretetelLista.addItem(item)
+        except Exception as e:
+            print(f"Hiba a félretett tételek betöltésénél: {e}")
+
+    def add_saving(self):
+        """Gombkezelő: új félretétel mentése az adatbázisba és frissíti a listát."""
+        osszeg_str = self.ui.FelretetelOsszeg.text()
+        try:
+            osszeg = float(osszeg_str)
+        except ValueError:
+            QMessageBox.warning(self, "Hiba", "Kérlek, számot adj meg összegnek!")
+            return
+
+        try:
+            # determine selected category (if any)
+            kategoria_name = self.ui.FelretetelKategoria.currentText()
+            category_obj = None
+            if kategoria_name:
+                cats = self.tx.get_all_cat()
+                category_obj = next((c for c in cats if c.name == kategoria_name), None)
+
+            self.tx.save_savings(osszeg, category=category_obj)
+            self.load_savings_list()
+            QMessageBox.information(self, "Siker", "Félretett összeg mentve.")
+            self.ui.FelretetelOsszeg.clear()
+        except Exception as e:
+            QMessageBox.critical(self, "Hiba", f"Nem sikerült menteni: {e}")
+
+    def delete_saving(self):
+        """Törli a kiválasztott félretételt az adatbázisból."""
+        item = self.ui.FelretetelLista.currentItem()
+        if not item:
+            QMessageBox.information(self, "Info", "Nincs kiválasztva tétel.")
+            return
+
+        sid = item.data(QtCore.Qt.ItemDataRole.UserRole)
+        try:
+            # lekérjük az objektumot és töröljük
+            # Directly query Savings model
+            from db_manager import Savings
+            saving_obj = self.tx.session.query(Savings).filter_by(id=sid).first()
+            if saving_obj:
+                self.tx.del_savings(saving_obj)
+                self.load_savings_list()
+                QMessageBox.information(self, "Siker", "Félretétel törölve.")
+            else:
+                QMessageBox.warning(self, "Hiba", "A kiválasztott tétel nem található.")
+        except Exception as e:
+            QMessageBox.critical(self, "Hiba", f"Törlés sikertelen: {e}")
         
 
 if __name__ == "__main__":

@@ -53,6 +53,15 @@ class RecurringTrans(Base):
     
     category = relationship("cat")
 
+class Savings(Base):
+    __tablename__ = "savings"
+    id = Column(Integer, primary_key=True)
+    amount = Column(Float, nullable=False)
+    date = Column(Date, nullable=False)
+    category_id = Column(Integer, ForeignKey("cat.id"), nullable=True)
+
+    category = relationship("cat")
+
 # ---- Táblák létrehozása ----
 Base.metadata.create_all(engine)
 
@@ -231,6 +240,52 @@ class TransactionManager:
         Összes rendszeres tranzakció lekérése.
         """
         return self.session.query(RecurringTrans).all()
+
+    # ---- Félretett pénz (savings) ----
+    def save_savings(self, amount: float, category: 'cat' = None, date_: date = None):
+        """
+        Ment egy félretett összeget az adatbázisba.
+        Ha nincs megadva dátum, a mai dátumot használja.
+        Visszatér: Savings objektum
+        """
+        from datetime import date as date_module
+        if date_ is None:
+            date_ = date_module.today()
+
+        saving = Savings(amount=amount, date=date_)
+        if category is not None:
+            # accept either cat object or category name
+            if isinstance(category, cat):
+                saving.category_id = category.id
+            elif isinstance(category, str):
+                existing = self.session.query(cat).filter_by(name=category).first()
+                if existing:
+                    saving.category_id = existing.id
+                else:
+                    # create new category if it doesn't exist
+                    newc = cat(name=category)
+                    self.session.add(newc)
+                    self.session.commit()
+                    saving.category_id = newc.id
+        self.session.add(saving)
+        self.session.commit()
+        print(f"Félretett összeg mentve: {saving.amount} Ft, {saving.date} ({saving.category.name if saving.category else 'no-cat'})")
+        return saving
+
+    def get_all_savings(self):
+        """Visszaadja az összes félretett tételt (Savings objektumok listája)."""
+        return self.session.query(Savings).order_by(Savings.date.desc()).all()
+
+    def del_savings(self, saving: Savings):
+        """Törli a megadott Savings bejegyzést."""
+        self.session.delete(saving)
+        self.session.commit()
+        print(f"Félretett tétel törölve: {saving.amount} Ft, {saving.date}")
+
+    def get_savings_as_list(self):
+        """Segédfüggvény: (id, display_string) lista GUI-hoz."""
+        savings = self.get_all_savings()
+        return [(s.id, f"{s.date} - {s.amount:,.0f} Ft ({s.category.name if s.category else '-'})") for s in savings]
 
     def del_recurring_trans(self, recurring: RecurringTrans):
         """
