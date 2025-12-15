@@ -506,12 +506,13 @@ if __name__ == "__main__":
                     return
                 
                 # Add transaction to database
-                self.db_manager.add_trans(
-                    money=osszeg,
-                    from_to=partner,
-                    date_=date_module.today(),
-                    categories=[category]
-                )
+                if not self.tullepesPopUp(abs(osszeg), balance):
+                    self.db_manager.add_trans(
+                        money=osszeg,
+                        from_to=partner,
+                        date_=date_module.today(),
+                        categories=[category]
+                    )
                 
                 # Update balance
                 self.update_balance()
@@ -581,12 +582,13 @@ if __name__ == "__main__":
                 start_date = date_module(qdate.year(), qdate.month(), qdate.day())
                 
                 # Add recurring transaction to database
-                self.db_manager.add_recurring_trans(
-                    money=osszeg,
-                    from_to=partner,
-                    start_date=start_date,
-                    category=category
-                )
+                if not self.tullepesPopUp(abs(osszeg), balance):
+                    self.db_manager.add_recurring_trans(
+                        money=osszeg,
+                        from_to=partner,
+                        start_date=start_date,
+                        category=category
+                    )
                 
                 # Clear form
                 self.ui.RenszeresOsszeg.clear()
@@ -1082,6 +1084,24 @@ Várható profit: {profit:,.0f} Ft"""
                     self.ui.FelretetelLista.addItem(item)
             except Exception as e:
                 QtWidgets.QMessageBox.critical(self, "Hiba", f"Nem sikerült betölteni a félretett tételeket: {e}")
+
+        def tullepesPopUp(self, osszeg, budget):
+            from PyQt6.QtWidgets import QMessageBox
+
+            if osszeg <= budget:
+                return True
+
+            reply = QMessageBox.question(
+                self,
+                "Megerősítés",
+                "Túllépi a keretet, biztosan folytatod?",
+                QMessageBox.StandardButton.Yes |
+                QMessageBox.StandardButton.No,
+                QMessageBox.StandardButton.No
+            )
+
+            return reply == QMessageBox.StandardButton.Yes
+
 
         def add_saving(self):
             """Ment egy új félretételt az adatbázisba és frissíti a listát."""
