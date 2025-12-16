@@ -187,21 +187,21 @@ class StatisticsWidget(QtWidgets.QWidget):
         
         # Calculate overall statistics
         total = total_expense(transactions)
-        self.total_expense_label.setText(f"Összes kiadás: {total:,.2f} Ft")
+        self.total_expense_label.setText(f"Összes kiadás: {int(total)} Ft")
         
         weekly_avg, monthly_avg = average_expense(transactions)
-        self.avg_weekly_label.setText(f"Heti átlag: {weekly_avg:,.2f} Ft")
-        self.avg_monthly_label.setText(f"Havi átlag: {monthly_avg:,.2f} Ft")
+        self.avg_weekly_label.setText(f"Heti átlag: {int(weekly_avg)} Ft")
+        self.avg_monthly_label.setText(f"Havi átlag: {int(monthly_avg)} Ft")
         
         std = std_expense(transactions)
-        self.std_label.setText(f"Szórás: {std:,.2f} Ft")
+        self.std_label.setText(f"Szórás: {int(std)} Ft")
         
         # Category statistics
         category_data = total_by_category(self.db_manager.session)
         if category_data:
             category_text = ""
             for cat_name, total in category_data:
-                category_text += f"{cat_name}: {-total:,.2f} Ft\n"
+                category_text += f"{cat_name}: {int(-total)} Ft\n"
             self.category_labels.setText(category_text.strip())
             
             # Draw pie chart
@@ -227,7 +227,7 @@ class StatisticsWidget(QtWidgets.QWidget):
         if monthly_data:
             monthly_text = f"Kiválasztott hónap ({selected_year}-{selected_month:02d}):\n"
             total_month = sum([total for _, total in monthly_data])
-            monthly_text += f"Összesen: {-total_month:,.2f} Ft\n"
+            monthly_text += f"Összesen: {int(-total_month)} Ft\n"
             monthly_text += f"Napok száma: {len(monthly_data)}"
             self.monthly_label.setText(monthly_text)
             
@@ -317,13 +317,13 @@ class StatisticsWidget(QtWidgets.QWidget):
         total_month = 0
         for day, total in monthly_data:
             total_month += total
-            item_text = f"{day}. nap: {-total:,.2f} Ft"
+            item_text = f"{day}. nap: {int(-total)} Ft"
             self.daily_list.addItem(item_text)
         
         # Add total at the end
         separator = QtWidgets.QListWidgetItem("─" * 40)
         self.daily_list.addItem(separator)
-        total_item = QtWidgets.QListWidgetItem(f"Havi összesen: {-total_month:,.2f} Ft")
+        total_item = QtWidgets.QListWidgetItem(f"Havi összesen: {int(-total_month)} Ft")
         self.daily_list.addItem(total_item)
 
 

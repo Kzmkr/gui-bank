@@ -506,7 +506,12 @@ if __name__ == "__main__":
                     return
                 
                 # Add transaction to database
-                if not self.tullepesPopUp(abs(osszeg), balance):
+                # Only prompt/check budget for expenses (negative amounts).
+                proceed = True
+                if osszeg < 0:
+                    proceed = self.tullepesPopUp(abs(osszeg), self.balance)
+
+                if proceed:
                     self.db_manager.add_trans(
                         money=osszeg,
                         from_to=partner,
@@ -582,7 +587,12 @@ if __name__ == "__main__":
                 start_date = date_module(qdate.year(), qdate.month(), qdate.day())
                 
                 # Add recurring transaction to database
-                if not self.tullepesPopUp(abs(osszeg), balance):
+                # Only prompt/check budget for expenses (negative amounts).
+                proceed = True
+                if osszeg < 0:
+                    proceed = self.tullepesPopUp(abs(osszeg), self.balance)
+
+                if proceed:
                     self.db_manager.add_recurring_trans(
                         money=osszeg,
                         from_to=partner,
@@ -628,16 +638,16 @@ if __name__ == "__main__":
                 QtWidgets.QMessageBox.warning(self, "Hiba", "Nincs kiválasztott rendszeres tranzakció!")
                 return
             
-            # Confirm deletion
-            reply = QtWidgets.QMessageBox.question(
-                self, 
-                'Megerősítés', 
-                f"Biztosan törölni szeretnéd ezt a rendszeres tranzakciót?\n{selected_text}",
-                QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No,
-                QtWidgets.QMessageBox.StandardButton.No
-            )
-            
-            if reply == QtWidgets.QMessageBox.StandardButton.Yes:
+            # Confirm deletion (use Hungarian 'Igen'/'Nem')
+            msg = QtWidgets.QMessageBox(self)
+            msg.setWindowTitle('Megerősítés')
+            msg.setText(f"Biztosan törölni szeretnéd ezt a rendszeres tranzakciót?\n{selected_text}")
+            btn_yes = msg.addButton('Igen', QtWidgets.QMessageBox.ButtonRole.YesRole)
+            btn_no = msg.addButton('Nem', QtWidgets.QMessageBox.ButtonRole.NoRole)
+            msg.setDefaultButton(btn_no)
+            msg.exec()
+
+            if msg.clickedButton() == btn_yes:
                 try:
                     # Get the recurring transaction ID
                     rec_id = self.recurring_ids.get(selected_text)
@@ -661,8 +671,10 @@ if __name__ == "__main__":
         def update_balance(self):
             """Calculate and update the current balance from all transactions"""
             transactions = self.db_manager.get_all_trans()
-            balance = sum(trans.money for trans in transactions)
-            self.ui.label.setText(f"Aktuális egyenleg: {balance:,.2f} Ft")
+            # store balance on the instance so other methods can use it
+            self.balance = sum(trans.money for trans in transactions)
+            # show integer Forint amount without separators or decimals
+            self.ui.label.setText(f"Aktuális egyenleg: {int(self.balance)} Ft")
 
         def lapozas(self, index):
             self.ui.stackedWidget.setCurrentIndex(index)
@@ -757,16 +769,16 @@ if __name__ == "__main__":
                 QtWidgets.QMessageBox.warning(self, "Hiba", "Nincs kiválasztott kategória!")
                 return
             
-            # Confirm deletion
-            reply = QtWidgets.QMessageBox.question(
-                self, 
-                'Megerősítés', 
-                f"Biztosan törölni szeretnéd a '{category_name}' kategóriát?",
-                QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No,
-                QtWidgets.QMessageBox.StandardButton.No
-            )
-            
-            if reply == QtWidgets.QMessageBox.StandardButton.Yes:
+            # Confirm deletion (use Hungarian 'Igen'/'Nem')
+            msg = QtWidgets.QMessageBox(self)
+            msg.setWindowTitle('Megerősítés')
+            msg.setText(f"Biztosan törölni szeretnéd a '{category_name}' kategóriát?")
+            btn_yes = msg.addButton('Igen', QtWidgets.QMessageBox.ButtonRole.YesRole)
+            btn_no = msg.addButton('Nem', QtWidgets.QMessageBox.ButtonRole.NoRole)
+            msg.setDefaultButton(btn_no)
+            msg.exec()
+
+            if msg.clickedButton() == btn_yes:
                 try:
                     # Find the category object
                     categories = self.db_manager.get_all_cat()
@@ -804,16 +816,16 @@ if __name__ == "__main__":
                 QtWidgets.QMessageBox.warning(self, "Hiba", f"A '{new_name}' kategória már létezik!")
                 return
             
-            # Confirm rename
-            reply = QtWidgets.QMessageBox.question(
-                self, 
-                'Megerősítés', 
-                f"Biztosan át szeretnéd nevezni a '{category_name}' kategóriát erre: '{new_name}'?",
-                QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No,
-                QtWidgets.QMessageBox.StandardButton.No
-            )
-            
-            if reply == QtWidgets.QMessageBox.StandardButton.Yes:
+            # Confirm rename (use Hungarian 'Igen'/'Nem')
+            msg = QtWidgets.QMessageBox(self)
+            msg.setWindowTitle('Megerősítés')
+            msg.setText(f"Biztosan át szeretnéd nevezni a '{category_name}' kategóriát erre: '{new_name}'?")
+            btn_yes = msg.addButton('Igen', QtWidgets.QMessageBox.ButtonRole.YesRole)
+            btn_no = msg.addButton('Nem', QtWidgets.QMessageBox.ButtonRole.NoRole)
+            msg.setDefaultButton(btn_no)
+            msg.exec()
+
+            if msg.clickedButton() == btn_yes:
                 try:
                     # Find the category object
                     category = next((cat for cat in categories if cat.name == category_name), None)
@@ -869,7 +881,7 @@ if __name__ == "__main__":
             for trans in sorted(transactions, key=lambda t: t.date, reverse=True):
                 date_item = QStandardItem(trans.date.strftime('%Y-%m-%d'))
                 partner_item = QStandardItem(trans.from_to)
-                amount_item = QStandardItem(f"{trans.money:,.2f} Ft")
+                amount_item = QStandardItem(f"{int(trans.money)} Ft")
                 
                 # Get category names
                 category_names = ', '.join([cat.name for cat in trans.categories])
@@ -953,7 +965,7 @@ if __name__ == "__main__":
             for trans in sorted(filtered_transactions, key=lambda t: t.date, reverse=True):
                 date_item = QStandardItem(trans.date.strftime('%Y-%m-%d'))
                 partner_item = QStandardItem(trans.from_to)
-                amount_item = QStandardItem(f"{trans.money:,.2f} Ft")
+                amount_item = QStandardItem(f"{int(trans.money)} Ft")
                 
                 # Get category names
                 category_names = ', '.join([cat.name for cat in trans.categories])
@@ -1056,12 +1068,12 @@ if __name__ == "__main__":
                 # Display results
                 result_text = f"""Befektetési kalkuláció:
                 
-Befektetett összeg: {osszeg:,.0f} Ft
+Befektetett összeg: {int(osszeg)} Ft
 Kockázat: {risk} ({expected_return*100:.0f}% éves hozam)
 Időtáv: {time_period} ({years} év)
 
-Várható végösszeg: {final_amount:,.0f} Ft
-Várható profit: {profit:,.0f} Ft"""
+Várható végösszeg: {int(final_amount)} Ft
+Várható profit: {int(profit)} Ft"""
                 
                 self.ui.BefektetesekKimenet.setText(result_text)
                 self.ui.BefektetesekKimenet.setStyleSheet("color: green; font-weight: bold;")
@@ -1091,16 +1103,16 @@ Várható profit: {profit:,.0f} Ft"""
             if osszeg <= budget:
                 return True
 
-            reply = QMessageBox.question(
-                self,
-                "Megerősítés",
-                "Túllépi a keretet, biztosan folytatod?",
-                QMessageBox.StandardButton.Yes |
-                QMessageBox.StandardButton.No,
-                QMessageBox.StandardButton.No
-            )
+            # Use Hungarian 'Igen'/'Nem' buttons
+            msg = QMessageBox(self)
+            msg.setWindowTitle("Megerősítés")
+            msg.setText("Túllépi a keretet, biztosan folytatod?")
+            btn_yes = msg.addButton('Igen', QMessageBox.ButtonRole.YesRole)
+            btn_no = msg.addButton('Nem', QMessageBox.ButtonRole.NoRole)
+            msg.setDefaultButton(btn_no)
+            msg.exec()
 
-            return reply == QMessageBox.StandardButton.Yes
+            return msg.clickedButton() == btn_yes
 
 
         def add_saving(self):

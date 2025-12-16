@@ -269,7 +269,7 @@ class TransactionManager:
                     saving.category_id = newc.id
         self.session.add(saving)
         self.session.commit()
-        print(f"Félretett összeg mentve: {saving.amount} Ft, {saving.date} ({saving.category.name if saving.category else 'no-cat'})")
+        print(f"Félretett összeg mentve: {int(saving.amount)} Ft, {saving.date} ({saving.category.name if saving.category else 'no-cat'})")
         return saving
 
     def get_all_savings(self):
@@ -280,12 +280,12 @@ class TransactionManager:
         """Törli a megadott Savings bejegyzést."""
         self.session.delete(saving)
         self.session.commit()
-        print(f"Félretett tétel törölve: {saving.amount} Ft, {saving.date}")
+        print(f"Félretett tétel törölve: {int(saving.amount)} Ft, {saving.date}")
 
     def get_savings_as_list(self):
         """Segédfüggvény: (id, display_string) lista GUI-hoz."""
         savings = self.get_all_savings()
-        return [(s.id, f"{s.date} - {s.amount:,.0f} Ft ({s.category.name if s.category else '-'})") for s in savings]
+        return [(s.id, f"{s.date} - {int(s.amount)} Ft ({s.category.name if s.category else '-'})") for s in savings]
 
     def del_recurring_trans(self, recurring: RecurringTrans):
         """
@@ -301,5 +301,5 @@ class TransactionManager:
         Returns: List of tuples (id, display_string)
         """
         recurring_trans = self.get_all_recurring_trans()
-        return [(rt.id, f"{rt.from_to} - {rt.money:,.0f} Ft ({rt.category.name})") 
-                for rt in recurring_trans]
+        return [(rt.id, f"{rt.from_to} - {int(rt.money)} Ft ({rt.category.name})") 
+            for rt in recurring_trans]
