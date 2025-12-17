@@ -509,7 +509,9 @@ if __name__ == "__main__":
                 # Only prompt/check budget for expenses (negative amounts).
                 proceed = True
                 if osszeg < 0:
-                    proceed = self.tullepesPopUp(abs(osszeg), self.balance)
+                    # Compare the expense against total saved amount (félretett pénz)
+                    total_savings = sum(s.amount for s in self.db_manager.get_all_savings())
+                    proceed = self.tullepesPopUp(abs(osszeg), total_savings)
 
                 if proceed:
                     self.db_manager.add_trans(
@@ -590,7 +592,9 @@ if __name__ == "__main__":
                 # Only prompt/check budget for expenses (negative amounts).
                 proceed = True
                 if osszeg < 0:
-                    proceed = self.tullepesPopUp(abs(osszeg), self.balance)
+                    # Compare the recurring expense against total saved amount (félretett pénz)
+                    total_savings = sum(s.amount for s in self.db_manager.get_all_savings())
+                    proceed = self.tullepesPopUp(abs(osszeg), total_savings)
 
                 if proceed:
                     self.db_manager.add_recurring_trans(
